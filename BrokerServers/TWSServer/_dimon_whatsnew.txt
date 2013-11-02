@@ -1,0 +1,9 @@
+* new f-n added to automatically resize debug output text area when window is resized:
+	// see: C:\dima\tradelink\tradelink.afterlife\BrokerServers\TWSServer\TWSServerDlg.cpp
+	void CTWSServerDlg::OnSize(UINT nType, int cx, int cy)
+	{
+		if (!m_status) return;
+	    m_status.SetWindowPos(NULL, 0, 0, cx-10, cy-20, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	24-Oct-2013
+

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\TWSServer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TWSServer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\TWSServer.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Shared\EClientSocket.cpp" />
+    <ClCompile Include="IBUtil.cpp" />
+    <ClCompile Include="Shared\MySocket.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TWS_TLServer.cpp" />
+    <ClCompile Include="TWSServer.cpp" />
+    <ClCompile Include="TWSServerDlg.cpp" />
+    <ClCompile Include="..\TradeLibFast\Util.cpp" />
+    <ClCompile Include="Shared\EClientSocketBase.cpp" />
+    <ClCompile Include="Shared\HScrollListBox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IBUtil.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TWS_TLServer.h" />
+    <ClInclude Include="TWSServer.h" />
+    <ClInclude Include="TWSServerDlg.h" />
+    <ClInclude Include="..\TradeLinkServer\Util.h" />
+    <ClInclude Include="Shared\CommissionReport.h" />
+    <ClInclude Include="Shared\CommonDefs.h" />
+    <ClInclude Include="Shared\Contract.h" />
+    <ClInclude Include="Shared\EClient.h" />
+    <ClInclude Include="Shared\EClientSocket.h" />
+    <ClInclude Include="Shared\EClientSocketBase.h" />
+    <ClInclude Include="Shared\EClientSocketBaseImpl.h" />
+    <ClInclude Include="Shared\EWrapper.h" />
+    <ClInclude Include="Shared\Execution.h" />
+    <ClInclude Include="Shared\HScrollListBox.h" />
+    <ClInclude Include="Shared\IBString.h" />
+    <ClInclude Include="Shared\MySocket.h" />
+    <ClInclude Include="Shared\Order.h" />
+    <ClInclude Include="Shared\OrderState.h" />
+    <ClInclude Include="Shared\ScannerSubscription.h" />
+    <ClInclude Include="Shared\shared_ptr.h" />
+    <ClInclude Include="Shared\StdAfx.h" />
+    <ClInclude Include="Shared\TagValue.h" />
+    <ClInclude Include="Shared\TwsSocketClientErrors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Shared\TwsSocketClient.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="TwsServer.Config.txt" />
+  </ItemGroup>
+</Project>

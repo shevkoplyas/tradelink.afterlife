@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CConnectSoc" Collapsed="true">
+    <Position X="6" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JESACAQAAAQwAGAAIGCAABgBSABEUAGUACIRwAAAAAI=</HashCode>
+      <FileName>CONNECTS.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CListensoc" Collapsed="true">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAIQAAAAQAAAAAAAAAIAAAAAAAAAI=</HashCode>
+      <FileName>LISTENS.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CLog" Collapsed="true">
+    <Position X="4.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CServerSocket" Collapsed="true">
+    <Position X="6" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAABAAAAAAA=</HashCode>
+      <FileName>ServerSocket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CServerThread" Collapsed="true">
+    <Position X="8.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAEABAAAAAAAABAAAAAAQAAAAAAAAAAAg=</HashCode>
+      <FileName>ServerT.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSocketThread" Collapsed="true">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAoFEAAAIEAAAAABAAAAAAQAAAEAAAAAAAI=</HashCode>
+      <FileName>SocketThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTokenizer" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAACAAAAABg=</HashCode>
+      <FileName>Util.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::BarRequest" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAiAAAAIAAAAAgIAFgAAAAAAAAAEAACAQ=</HashCode>
+      <FileName>BarRequest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLBar" Collapsed="true">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAJAAAAAAAACAAAACAACAKAACAgAgAAAIAAAQAAgAA=</HashCode>
+      <FileName>TLBar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLClient_WM" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAQAAAAIFAAgBAAAkQBAEAAAADEAEAQAAQgAACQAA=</HashCode>
+      <FileName>TLClient_WM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLImbalance" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAABAAAAAAACAAGAAACBEAAAAEAAQAAAACAg=</HashCode>
+      <FileName>TLImbalance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLMarketBasket" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAQAAAAAAAAAQAACHAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>TLMarketBasket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLOrder" Collapsed="true">
+    <Position X="2.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgQJAAAAAAAADQAAAIAIAAAIACRgAAQAAAAAQQAAHoE=</HashCode>
+      <FileName>TLOrder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLPacket" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCAAAAAAABAAAEAAAAAAAAAAAAICBQAAIAAQAAAAAA=</HashCode>
+      <FileName>TLPacket.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLPosition" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAgAAAIAAAAAIAICBAAAAAAAAAAAAACEA=</HashCode>
+      <FileName>TLPosition.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLSecurity" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAADABAAQAAAAAAACBRCAhAAoAEAQAAAAA=</HashCode>
+      <FileName>TLSecurity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLServer_IP" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MALpAGIQQCFICCCIEQUACAApgCHAAIUwDDZDrGgSIAE=</HashCode>
+      <FileName>TLServer_IP.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLServer_WM" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIBBAUIQAqAoCFBAEAEACFAgiDQgQLAgDBBBPSgCAAU=</HashCode>
+      <FileName>TLServer_WM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLTick" Collapsed="true">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEABAAIAAAAICABAAIBAEgAAAiBAAEAAAEkAIQACAgA=</HashCode>
+      <FileName>TLTick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradeLibFast::TLTrade" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAJAAAAAAADIAAAAAAAAAQACBAQAAABAAAAAAAAAA=</HashCode>
+      <FileName>TLTrade.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

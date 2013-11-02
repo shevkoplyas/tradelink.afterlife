@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CTWSServerApp">
+    <Position X="8.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>TWSServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTWSServerDlg">
+    <Position X="5.5" Y="6" Width="1.75" />
+    <NestedTypes>
+      <Enum Name="CTWSServerDlg::__unnamed_enum_000f_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TWSServerDlg.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EASAAAEAAgEAAAAAABAAAAAAAAAABAQAAAAARASQAAA=</HashCode>
+      <FileName>TWSServerDlg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWinApp" Collapsed="true">
+    <Position X="8.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>57Zg4NJZMRYwEDOJuKSX1EtlESlJxcwkSSNipVAHtHc=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDialog" Collapsed="true">
+    <Position X="3.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAyCkAQMCYAQgEDAIAgBTFACADAUAgBAoQAAFABiA=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCommonDialog">
+    <Position X="3.75" Y="6" Width="1.5" />
+    <InheritanceLine Type="CDialog" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="5.441" />
+        <Point X="4.5" Y="5.7" />
+        <Point X="4.5" Y="5.7" />
+        <Point X="4.5" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AADAACAABAAAAAAAAAAAAAABAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxdlgs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPropertyPage">
+    <Position X="1.5" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>4QAIASAAAAAAgMwADAAAjACJAAABAQIAIAYAkMAgREQ=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxdlgs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWnd" Collapsed="true">
+    <Position X="3.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>v977//bff7//b//96f/P/f/97/+e33f39uv7/d///7c=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWinThread" Collapsed="true">
+    <Position X="8.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAkAAQwAICAIBhgQCAABkAABAAEAgQYAgAAAgAgJCAM=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCmdTarget" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQBRAgFAIUREFAwCNAoxmIAxQRSASAACwAAQDABAMA=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CObject" Collapsed="true">
+    <Position X="6" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAQAAAAACAAAgQAAADAAAAAAEUAgAEAAAAA=</HashCode>
+      <FileName>c:\program files (x86)\microsoft visual studio 11.0\vc\atlmfc\include\afx.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

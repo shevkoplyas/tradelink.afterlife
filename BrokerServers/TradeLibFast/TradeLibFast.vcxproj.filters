@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TradeLibFast.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BarRequest.cpp" />
+    <ClCompile Include="CONNECTS.CPP" />
+    <ClCompile Include="Convert.cpp" />
+    <ClCompile Include="ErrorString.cpp" />
+    <ClCompile Include="LISTENS.CPP" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="ServerSocket.cpp" />
+    <ClCompile Include="ServerT.cpp" />
+    <ClCompile Include="SocketThread.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TLBar.cpp" />
+    <ClCompile Include="TLClient_WM.cpp" />
+    <ClCompile Include="TLImbalance.cpp" />
+    <ClCompile Include="TLMarketBasket.cpp" />
+    <ClCompile Include="TLOrder.cpp" />
+    <ClCompile Include="TLPacket.cpp" />
+    <ClCompile Include="TLPosition.cpp" />
+    <ClCompile Include="TLSecurity.cpp" />
+    <ClCompile Include="TLServer_IP.cpp" />
+    <ClCompile Include="TLServer_WM.cpp" />
+    <ClCompile Include="TLTick.cpp" />
+    <ClCompile Include="TLTrade.cpp" />
+    <ClCompile Include="TracePacket.cpp" />
+    <ClCompile Include="TradeLibFast.cpp" />
+    <ClCompile Include="Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BarRequest.h" />
+    <ClInclude Include="CONNECTS.H" />
+    <ClInclude Include="Convert.h" />
+    <ClInclude Include="ErrorString.h" />
+    <ClInclude Include="LISTENS.H" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="OrderInstructionTypes.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ServerSocket.h" />
+    <ClInclude Include="ServerT.h" />
+    <ClInclude Include="SocketThread.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TLBar.h" />
+    <ClInclude Include="TLClient_WM.h" />
+    <ClInclude Include="TLImbalance.h" />
+    <ClInclude Include="TLMarketBasket.h" />
+    <ClInclude Include="TLOrder.h" />
+    <ClInclude Include="TLPacket.h" />
+    <ClInclude Include="TLPosition.h" />
+    <ClInclude Include="TLSecurity.h" />
+    <ClInclude Include="TLServer_IP.h" />
+    <ClInclude Include="TLServer_WM.h" />
+    <ClInclude Include="TLTick.h" />
+    <ClInclude Include="TLTrade.h" />
+    <ClInclude Include="TracePacket.h" />
+    <ClInclude Include="TradeLibFast.h" />
+    <ClInclude Include="TradeLink.h" />
+    <ClInclude Include="Util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+</Project>
