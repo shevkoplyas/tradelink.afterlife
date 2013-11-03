@@ -4,7 +4,7 @@ tradelink.afterlife
 tradelink.afterlife is an attempt to keep TradeLink (including ASP, Kadina etc. excluding lovely Glean) alive!
 
 
-------------------------------------------------------------------------
+<hr>
 02-Nov-2013
 
 It seems I managed to rebuild C++ TWSServer (it is part of tradeling - IB connector) to use latest IB API.
@@ -22,4 +22,4 @@ then your response will also emit all the events to RabbitMQ message bus :)
 (just experimenting to be able to use external viewers with tradelInk.afterlife, since it does not have viewers, I'd say at all:)
 
 I'll put more info in some readme's later when things are more stable/tested. (don't have much free time). For now the whole thing is just my "as is" take on TL.
-------------------------------------------------------------------------
+<hr>
