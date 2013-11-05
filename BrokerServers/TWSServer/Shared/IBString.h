@@ -37,7 +37,7 @@ inline bool Compare(IBString str, const char* strToCompare)
 #ifdef IB_USE_STD_STRING
 	return str.compare(strToCompare);
 #else
-	return str.CompareNoCase(strToCompare);
+	return (str.CompareNoCase(strToCompare) != 0);
 #endif
 };
 
@@ -46,7 +46,7 @@ inline bool Compare(IBString str, IBString strToCompare)
 #ifdef IB_USE_STD_STRING
 	return str.compare(strToCompare);
 #else
-	return str.CompareNoCase(strToCompare);
+	return (str.CompareNoCase(strToCompare) != 0);
 #endif
 };
 

@@ -19,13 +19,20 @@ CTWSServerDlg::CTWSServerDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CTWSServerDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	deblines = 0;
+	m_status_lines_count = 0;
+
+	m_status1_lines_count = 0;
+	m_status2_lines_count = 0;
+	m_status3_lines_count = 0;
 }
 
 void CTWSServerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_STATUS, m_status);
+	DDX_Control(pDX, IDC_STATUS1, m_status1);
+	DDX_Control(pDX, IDC_STATUS2, m_status2);
+	DDX_Control(pDX, IDC_STATUS3, m_status3);
 }
 
 BEGIN_MESSAGE_MAP(CTWSServerDlg, CDialog)
@@ -36,11 +43,32 @@ BEGIN_MESSAGE_MAP(CTWSServerDlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-// dimon: make CEdit auto-resizable if we modify resize the window
+
 void CTWSServerDlg::OnSize(UINT nType, int cx, int cy)
 {
-	if (!m_status) return;
-    m_status.SetWindowPos(NULL, 0, 0, cx-10, cy-20, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	if (!tl) return;
+
+	int number_of_debug_pannels = this->tl->TLDEBUG_LEVEL + 1;
+
+	int cedit_width = (cx-0)/number_of_debug_pannels;
+	int cedit_height = (cy-0); // dimon: we'll reserve some space for additional controls here if needed
+	
+	if (m_status) {
+		// dimon: make CEdit auto-resizable if we modify resize the window
+		m_status.SetWindowPos(NULL, cedit_width*0, 0, cedit_width, cedit_height, NULL);// SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	if (m_status1) {
+		// dimon: make CEdit auto-resizable if we modify resize the window
+		m_status1.SetWindowPos(NULL, cedit_width*1, 0, cedit_width, cedit_height, NULL);// SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	if (m_status2) {
+		// dimon: make CEdit auto-resizable if we modify resize the window
+		m_status2.SetWindowPos(NULL, cedit_width*2, 0, cedit_width, cedit_height, NULL);// SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	if (m_status3) {
+		// dimon: make CEdit auto-resizable if we modify resize the window
+		m_status3.SetWindowPos(NULL, cedit_width*3, 0, cedit_width, cedit_height, NULL);// SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	}
 }
 
 // CTWSServerDlg message handlers
@@ -55,11 +83,20 @@ BOOL CTWSServerDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	ShowWindow(SW_NORMAL); // todo: after it is stable - get back to: SW_MINIMIZE);
-
-	cstat("Starting tradelink broker server...");
+	cstat("Starting tradelink.afterlife broker server...");
 	tl = new TWS_TLServer();
-	__hook(&TLServer_WM::GotDebug,tl,&CTWSServerDlg::status);
+
+	tl->TLDEBUG_LEVEL = 3; // dimon: see TLServer_WM.h for possible values
+
+	__hook(&TLServer_WM::GotDebug,tl,&CTWSServerDlg::status); // dimon: for each event with type=TLServer::GotDebug originated from TWS_TLServer we call CTWSServerDlg::status, which just adds +1 line to self-scrolling CEdit field this->m_status
+	__hook(&TLServer_WM::GotDebug1,tl,&CTWSServerDlg::status1);
+	__hook(&TLServer_WM::GotDebug2,tl,&CTWSServerDlg::status2);
+	__hook(&TLServer_WM::GotDebug3,tl,&CTWSServerDlg::status3);
+
+	// after instance of TWS_TLServer is created, but before tl->Start() we'd resize our dialog components (OnSize()) by calling SetWindowPos()
+	ShowWindow(SW_NORMAL); // todo: after it is stable - get back to: SW_MINIMIZE);
+	SetWindowPos(NULL, 0, 0, 1600, 800, NULL);	// dimon: change initial TWSServer dialog size
+
 	tl->Start();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -132,6 +169,45 @@ void CTWSServerDlg::status(LPCTSTR m)
 	m_status.GetWindowTextA(stat);
 	stat.Append(msg);
 	m_status.SetWindowTextA(stat);
-	deblines++;
-	m_status.LineScroll(deblines);
+	m_status_lines_count++;
+	m_status.LineScroll(m_status_lines_count);
+}
+
+void CTWSServerDlg::status1(LPCTSTR m)
+{
+	CString msg(m);
+	const CString NEWLINE = "\r\n";
+	msg.Append(NEWLINE);
+	CString stat;
+	m_status1.GetWindowTextA(stat);
+	stat.Append(msg);
+	m_status1.SetWindowTextA(stat);
+	m_status1_lines_count++;
+	m_status1.LineScroll(m_status1_lines_count);
+}
+
+void CTWSServerDlg::status2(LPCTSTR m)
+{
+	CString msg(m);
+	const CString NEWLINE = "\r\n";
+	msg.Append(NEWLINE);
+	CString stat;
+	m_status2.GetWindowTextA(stat);
+	stat.Append(msg);
+	m_status2.SetWindowTextA(stat);
+	m_status2_lines_count++;
+	m_status2.LineScroll(m_status2_lines_count);
+}
+
+void CTWSServerDlg::status3(LPCTSTR m)
+{
+	CString msg(m);
+	const CString NEWLINE = "\r\n";
+	msg.Append(NEWLINE);
+	CString stat;
+	m_status3.GetWindowTextA(stat);
+	stat.Append(msg);
+	m_status3.SetWindowTextA(stat);
+	m_status3_lines_count++;
+	m_status3.LineScroll(m_status3_lines_count);
 }

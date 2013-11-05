@@ -52,10 +52,14 @@ namespace TradeLibFast
 		}
 
 	}
-	
+
 	void TWS_TLServer::Start(void)
 	{
 		TLServer_WM::Start();
+
+		CString m;
+		m.Format("Reading config from: %s", CONFIGFILE);	// dimon: we also show path to current config
+		D(m);
 
 		std::ifstream file;
 		file.open(CONFIGFILE);
@@ -75,7 +79,12 @@ namespace TradeLibFast
 		sessionid = atoi(data); // get the session id next 
 		file.getline(skip,ss);
 		file.getline(data,ds); 
+
 		_currency = CString(data); // get currency
+
+		m.Format("    - Using currency: %s",_currency);
+		D(m);
+
 		// get verbosity
 		file.getline(skip,ss);
 		file.getline(data,ds);
@@ -84,49 +93,51 @@ namespace TradeLibFast
 		file.getline(skip,ss);
 		file.getline(data,ds);
 		histBarWhatToShow = CString(data);
-		CString m;
-		m.Format("Using bar price data: %s",histBarWhatToShow);
+
+		m.Format("    - Using bar price data: %s",histBarWhatToShow);
 		D(m);
+
 		// get historical bar regular trading hours
 		file.getline(skip,ss);
 		file.getline(data,ds);
 		histBarRTH = atoi(data);
 
 		if (histBarRTH)
-			D("Using bar data from regular trading hours.");
+			D("    - Using bar data from regular trading hours.");
 		else
-			D("Using all bar data available.");
+			D("    - Using all bar data available.");
 
 		file.getline(skip,ss);
 		file.getline(data,ds);
 		fillnotifyfullsymbol = atoi(data)==1;
 		if (fillnotifyfullsymbol)
-			D("Using full quoted symbol on fill notification.");
+			D("    - Using full quoted symbol on fill notification.");
 		else
-			D("Using only executed symbol on fill notification.");
+			D("    - Using only executed symbol on fill notification.");
 
 
 		file.close();
 		if (!noverb)
-			D("verbosity is on");
-		CString msg;
+			D("    - verbosity is on");
 		if (sessionid!=0)
 		{
-			D("Orders can only be received from this machine.");
+			D("    - Orders can only be received from this machine.");
 			D(CString("To change this, see ")+CONFIGFILE);
 		}
-		msg.Format("Looking for %i TWS instances...",maxsockets);
-		D(msg);
+		m.Format("Looking for %i TWS instances...",maxsockets);
+		D(m);
+
 		D(CString(LINE));
 		InitSockets(maxsockets,sessionid);
 		D(CString(LINE));
-		msg.Format("Found %i of %i.",this->validlinkids.size(),maxsockets);
-		D(msg);
+		
+		m.Format("Found %i of %i.",this->validlinkids.size(),maxsockets);
+		D(m);
+
 		D(CString("For more instances, change value in: ")+CONFIGFILE);
-		msg.Format("Found accounts: %s",gjoin(accts,","));
-		D(msg);
-		msg.Format("Using currency: %s",_currency);
-		D(msg);
+		
+		m.Format("Found accounts: %s",gjoin(accts,","));
+		D(m);
 	}
 
 
@@ -195,7 +206,7 @@ namespace TradeLibFast
 		//ILDEEND
 		return f;
 	}
-	
+
 	void gettime(int tltime, std::vector<int>& r)
 	{
 		int sec = tltime % 100;
@@ -244,7 +255,7 @@ namespace TradeLibFast
 				bool usesec = ts.GetTotalSeconds()<86400;
 				bool usedays = ts.GetDays()<30;
 				int weeks = (int)(((double)ts.GetDays())/(double)7);
-				
+
 				CString edt;
 				edt.Format("%i %i:%i:%i",br.EndDate,et[2],et[1],et[0]);
 				// get duration
@@ -312,7 +323,7 @@ namespace TradeLibFast
 		b.date = date;
 		// send bar to requesting client
 		TLSend(BARRESPONSE,TLBar::Serialize(b),br.Client);
-		
+
 
 
 
@@ -499,8 +510,8 @@ namespace TradeLibFast
 		order->orderId = newOrder(o.id,o.account);
 		order->transmit = true;
 
-		
-		
+
+
 		Contract* contract(new Contract);
 		getcontract(o.symbol,o.currency,o.exchange,contract);
 		pcont(contract);
@@ -518,7 +529,7 @@ namespace TradeLibFast
 		// place our order
 		if (client!=NULL)
 			client->placeOrder(order->orderId,*contract,*order);
-		
+
 
 		delete order;
 		delete contract;
@@ -543,7 +554,7 @@ namespace TradeLibFast
 
 
 	void TWS_TLServer::updateAccountValue( const CString &key, const CString &val,
-										  const CString &currency, const CString &accountName) 
+		const CString &currency, const CString &accountName) 
 	{
 		// make sure we don't have this account already
 		if (!hasAccount(accountName))
@@ -617,7 +628,7 @@ namespace TradeLibFast
 	}
 
 	void TWS_TLServer::openOrder( OrderId orderId, const Contract& contract,
-								const Order& order, const OrderState& orderState)
+		const Order& order, const OrderState& orderState)
 	{
 		// log warnings
 		if (orderState.warningText!="")
@@ -639,8 +650,8 @@ namespace TradeLibFast
 			// ignore other states
 			return;
 		}
-			// count order
-			getNextOrderId(order.account);
+		// count order
+		getNextOrderId(order.account);
 
 		// prepare client order and notify client
 		TradeLibFast::TLOrder o;
@@ -951,11 +962,11 @@ namespace TradeLibFast
 		else if (sec.sym=="NG") multiplier= "10000";
 
 
-			else
-		multiplier= "1";
-			
+		else
+			multiplier= "1";
+
 		if (sec.type==1 )   //stock options
-				multiplier= "100";
+			multiplier= "100";
 		return multiplier;
 	}
 
@@ -988,20 +999,20 @@ namespace TradeLibFast
 
 			// otherwise, subscribe to this stock and save it to subscribed list of tickers
 			Contract contract;
-			
+
 			contract.multiplier = getmultiplier(sec);	
-	
-				
+
+
 			contract.localSymbol = sec.sym;
 			contract.right = sec.details;
 			CString expire;
 			expire.Format("%i",sec.date);
 			contract.expiry = expire;
 			contract.strike = sec.strike;
-				
+
 			if (!sec.hasDest())
 				contract.exchange = "SMART";
-		
+
 			// if destination specified use it
 			if (sec.hasDest())
 				contract.exchange = sec.dest;
@@ -1024,11 +1035,11 @@ namespace TradeLibFast
 			CString extra("");
 			if (sec.type==OPT)
 				extra.Format("%s %s %f",contract.expiry,(contract.right==CString("C")) ? "CALL" : "PUT",contract.strike);
-			
+
 			j.Format("adding this: %s %s %s %s %s",contract.symbol,contract.localSymbol,contract.secType,contract.exchange,extra);
 			D(j);//CString("attempting to add symbol ")+CString(sec.sym));
-			
-			
+
+
 			this->m_link[this->validlinkids[0]]->reqMktData((TickerId)stockticks.size(),contract,"",false);
 			TLTick k; // create blank tick
 			k.sym = stocks[cid][i]; // store long symbol
@@ -1039,29 +1050,29 @@ namespace TradeLibFast
 
 	}
 
-	
 
-	
+
+
 	CString TWS_TLServer::truncateat(CString original,CString after)
 	{
-			CString cpy = CString(original);
-			int pidx = cpy.Find(after);
-			if (pidx!=-1)
-			{
-				cpy.Delete(0,cpy.GetLength()-pidx);				
-			}
-			return cpy;
+		CString cpy = CString(original);
+		int pidx = cpy.Find(after);
+		if (pidx!=-1)
+		{
+			cpy.Delete(0,cpy.GetLength()-pidx);				
+		}
+		return cpy;
 	}
 
 	CString TWS_TLServer::truncatebefore(CString original,CString before)
 	{
-			CString cpy = CString(original);
-			int pidx = cpy.Find(before);
-			if (pidx!=-1)
-			{
-				cpy.Delete(pidx,cpy.GetLength()-pidx);				
-			}
-			return cpy;
+		CString cpy = CString(original);
+		int pidx = cpy.Find(before);
+		if (pidx!=-1)
+		{
+			cpy.Delete(pidx,cpy.GetLength()-pidx);				
+		}
+		return cpy;
 	}
 
 
@@ -1095,12 +1106,12 @@ namespace TradeLibFast
 				k.ask = stockticks[tickerId].ask;
 				k.os = stockticks[tickerId].os;
 			}
-			
+
 			else return; // not relevant tick info
 			if (k.isValid() && needStock(k.sym))
 				this->SrvGotTick(k);
 		}
-	
+
 	}
 
 	void TWS_TLServer::tickSize( TickerId tickerId, TickType tickType, int size) 
@@ -1186,9 +1197,9 @@ namespace TradeLibFast
 			}
 
 		}
-	
-		
-		
+
+
+
 		pos.Size = position;
 		pos.AvgPrice = marketPrice;
 		pos.ClosedPL = realizedPNL;
@@ -1206,7 +1217,7 @@ namespace TradeLibFast
 	int TWS_TLServer::PositionResponse(CString account, CString clientname)
 	{
 		for (int i = 0; i<(int)poslist.size(); i++)
-				TLSend(POSITIONRESPONSE,poslist[i].Serialize(),clientname);
+			TLSend(POSITIONRESPONSE,poslist[i].Serialize(),clientname);
 		return OK;
 	}
 
@@ -1223,7 +1234,7 @@ namespace TradeLibFast
 			k.date = (ct.GetYear()*10000) + (ct.GetMonth()*100) + ct.GetDay();
 			k.time = (ct.GetHour()*10000) + (ct.GetMinute()*100)+ct.GetSecond();
 			k.sym = stockticks[id].sym;
-			
+
 			if (side==1)
 			{
 				stockticks[id].bid = price;
@@ -1237,7 +1248,7 @@ namespace TradeLibFast
 				k.os = size;
 			}
 			else return; // not relevant tick info
-			
+
 			//set book depth
 			k.depth = position;
 
@@ -1245,10 +1256,10 @@ namespace TradeLibFast
 				this->SrvGotTick(k);
 		}
 	}
-	
+
 	//the argument "marketmaker" is ignored
 	void TWS_TLServer::updateMktDepthL2( TickerId id, int position, CString marketMaker, int operation, 
-			int side, double price, int size) 
+		int side, double price, int size) 
 	{ 
 		if ((id>=0)&&(id<(TickerId)stockticks.size()) && needStock(stockticks[id].sym))
 		{
@@ -1259,7 +1270,7 @@ namespace TradeLibFast
 			k.date = (ct.GetYear()*10000) + (ct.GetMonth()*100) + ct.GetDay();
 			k.time = (ct.GetHour()*10000) + (ct.GetMinute()*100)+ct.GetSecond();
 			k.sym = stockticks[id].sym;
-			
+
 			if (side==1)
 			{
 				stockticks[id].bid = price;
@@ -1273,7 +1284,7 @@ namespace TradeLibFast
 				k.os = size;
 			}
 			else return; // not relevant tick info
-			
+
 			//set book depth
 			k.depth = position;
 
@@ -1283,8 +1294,8 @@ namespace TradeLibFast
 	}
 	//ILDEEND
 
-//	void TWS_TLServer::tickOptionComputation( TickerId ddeId, TickType field, double impliedVol,
-//		double delta, double modelPrice, double pvDividend) { }
+	//	void TWS_TLServer::tickOptionComputation( TickerId ddeId, TickType field, double impliedVol,
+	//		double delta, double modelPrice, double pvDividend) { }
 
 	void TWS_TLServer::tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
 		double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) { }	// dimon: all these with empty {} basically ignored by TrLink?
@@ -1307,7 +1318,7 @@ namespace TradeLibFast
 	void TWS_TLServer::bondContractDetails( int reqId, const ContractDetails& contractDetails) {}
 	void TWS_TLServer::contractDetailsEnd( int reqId) {}
 	//ILDECOMMENTvoid TWS_TLServer::updateMktDepth( TickerId id, int position, int operation, int side, 
-			//double price, int size) { }
+	//double price, int size) { }
 	void TWS_TLServer::updateNewsBulletin(int msgId, int msgType, const CString& newsMessage, const CString& originExch) { }
 	void TWS_TLServer::receiveFA(faDataType pFaDataType, const CString& cxml) { }
 	void TWS_TLServer::scannerParameters(const CString &xml) { }
@@ -1315,7 +1326,7 @@ namespace TradeLibFast
 		const CString &benchmark, const CString &projection, const CString &legsStr) { }
 	void TWS_TLServer::scannerDataEnd(int reqId) { }
 	void TWS_TLServer::realtimeBar(TickerId reqId, long time, double open, double high, double low, double close,
-	   long volume, double wap, int count) { }
+		long volume, double wap, int count) { }
 	void TWS_TLServer::currentTime(long time) {}
 	void TWS_TLServer::fundamentalData(TickerId reqId, const CString& data) {}
 
@@ -1329,7 +1340,7 @@ namespace TradeLibFast
 			D("No ticket has been registered yet.");
 			return OK;
 		}
-		
+
 		// make sure base function is called
 		TLServer_WM::DOMRequest(depth);
 
@@ -1354,7 +1365,7 @@ namespace TradeLibFast
 
 				// otherwise, subscribe to this stock and save it to subscribed list of tickers
 				Contract contract;
-			
+
 				// if option, pass options parameters
 				if (sec.isCall() || sec.isPut())
 				{
@@ -1390,21 +1401,21 @@ namespace TradeLibFast
 				else
 					contract.currency = _currency;
 				contract.secType = TLSecurity::SecurityTypeName(sec.type);
-				
+
 				v(CString("attempting to add market depth"));
-								
+
 				TickerId tid = (TickerId)findStockticksTid(stocks[cid][i]);
 				if(tid == -1)
 					return SYMBOL_NOT_LOADED;
 
 				this->m_link[this->validlinkids[0]]->reqMktDepth(tid,contract,depth);
-				
+
 				v(CString("Added IB market depth subscription for ")+CString(sec.sym));
 			}
 		}
 		return 0;
 	}
-	
+
 	//This methid returns the tickerid for a given symbol or -1
 	int TWS_TLServer::findStockticksTid(CString symbol)
 	{

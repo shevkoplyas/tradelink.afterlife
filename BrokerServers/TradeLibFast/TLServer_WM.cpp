@@ -16,12 +16,15 @@ namespace TradeLibFast
 	TLServer_WM::TLServer_WM(void)
 	{
 		PROGRAM = CString("BROKER");
-		MajorVer = 0.1;
-		MinorVer = 0;
-		TLDEBUG = true;
-		ENABLED = false;
+		MajorVer = 0.3;
+		MinorVer = 1;
+		TLDEBUG_LEVEL = 3;	// dimon: set to any negative value to disable debug. 0 = normal, 1 = more verbose...  3=max verbosity level
+		ENABLED = false;	// dimon: this "flag" will be used once in Start().. kinda ugly solution against multiple start() calls?
 		LOGENABLED = true;
 		debugbuffer = CString("");
+
+		/*
+		"we no longer read version number from: C:\Program Files (x86)\TradeLink\VERSION.txt"
 		std::ifstream file;
 		TCHAR path[MAX_PATH];
 		SHGetFolderPath(NULL,CSIDL_PROGRAM_FILES,NULL,0,path);
@@ -30,19 +33,23 @@ namespace TradeLibFast
 		file.open(ver.GetBuffer());
 		if (file.is_open())
 		{
-			char data[8];
-			file.getline(data,8);
-			MinorVer = atoi(data);
-			file.close();
+		char data[8];
+		file.getline(data,8);
+		MinorVer = atoi(data);
+		file.close();
 		}
+		*/
 
-				// thread setup stuff
+		// thread setup stuff
 
 		for (uint i = 0; i<MAXTICKS; i++)
 		{
 			TLTick k;
 			_tickcache.push_back(k);
 		}
+		CString debug_message;
+		debug_message.Format("Note: your _tickcache size (set by MAXTICKS): %d", MAXTICKS);
+		D(debug_message);
 
 		_tickflip = false;
 		_readticks = 0;
@@ -50,17 +57,19 @@ namespace TradeLibFast
 		_go = true;
 		_startthread = false;
 
-
 	}
 
 	TLServer_WM::~TLServer_WM()
 	{
 		// ensure threads are marked to stop
 		_go = false;
-		// wait moment for them to stop
-		Sleep(100);
+
+		// wait moment for them to stop  
+		Sleep(100); // dimon: this is ugly
+
 		// clear tick and imbalance cache
 		_tickcache.clear();
+
 		// signal threads to stop
 		//SetEvent(_tickswaiting);
 		debugbuffer = "";
@@ -71,6 +80,7 @@ namespace TradeLibFast
 	{
 		CString ver;
 		ver.Format("%.1f.%i",MajorVer,MinorVer);
+		D3("TLServer_WM::Version(): " + ver);
 		return ver;
 	}
 
@@ -82,6 +92,7 @@ namespace TradeLibFast
 
 	bool TLServer_WM::needStock(CString stock)
 	{
+		D3("TLServer_WM::needStock " + stock);
 		int idx = FindSym(stock);
 		if (idx==-1) return false;
 		bool needed = symclientidx[idx].size()!=0;
@@ -187,20 +198,20 @@ namespace TradeLibFast
 		int type = (int)pCopyDataStruct->dwData;
 		switch (type)
 		{
-			case ORDERCANCELREQUEST :
-				{
-					const char * ch = msg.GetBuffer();
-					int64 id = _atoi64(ch);
-					return CancelRequest(id);
-				}
-			case ACCOUNTREQUEST :
-				return AccountResponse(msg);
-			case CLEARCLIENT :
-				return ClearClient(msg);
-			case CLEARSTOCKS :
-				return ClearStocks(msg);
-			case REGISTERSTOCK :
-				{
+		case ORDERCANCELREQUEST :
+			{
+				const char * ch = msg.GetBuffer();
+				int64 id = _atoi64(ch);
+				return CancelRequest(id);
+			}
+		case ACCOUNTREQUEST :
+			return AccountResponse(msg);
+		case CLEARCLIENT :
+			return ClearClient(msg);
+		case CLEARSTOCKS :
+			return ClearStocks(msg);
+		case REGISTERSTOCK :
+			{
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -219,40 +230,40 @@ namespace TradeLibFast
 				D(CString(_T("Client ")+client+_T(" registered: ")+gjoin(hisstocks,",")));
 				HeartBeat(client);
 				return RegisterStocks(client);
-				}
-			case POSITIONREQUEST :
-				{
+			}
+		case POSITIONREQUEST :
+			{
 				vector<CString> r;
 				gsplit(msg,CString("+"),r);
 				if (r.size()!=2) return UNKNOWN_MESSAGE;
 				return PositionResponse(r[1],r[0]);
-				}
-			case REGISTERCLIENT :
-				return RegisterClient(msg);
-			case HEARTBEATREQUEST :
-				return HeartBeat(msg);
-			case BROKERNAME :
-				return BrokerName();
-			case SENDORDER :
-				return SendOrder(TLOrder::Deserialize(msg));
-			case FEATUREREQUEST:
-				{
-					// get features supported by child class
-					std::vector<int> stub = GetFeatures();
-					// append basic feature we provide as parent
-					stub.push_back(REGISTERCLIENT);
-					stub.push_back(HEARTBEATREQUEST);
-					stub.push_back(CLEARSTOCKS);
-					stub.push_back(CLEARCLIENT);
-					stub.push_back(VERSION);
-					// send entire feature set back to client
-					TLSend(FEATURERESPONSE,SerializeIntVec(stub),msg);
-					return OK;
-				}
-			case VERSION :
-					return MinorVer;
-			case DOMREQUEST :
-				{
+			}
+		case REGISTERCLIENT :
+			return RegisterClient(msg);
+		case HEARTBEATREQUEST :
+			return HeartBeat(msg);
+		case BROKERNAME :
+			return BrokerName();
+		case SENDORDER :
+			return SendOrder(TLOrder::Deserialize(msg));
+		case FEATUREREQUEST:
+			{
+				// get features supported by child class
+				std::vector<int> stub = GetFeatures();
+				// append basic feature we provide as parent
+				stub.push_back(REGISTERCLIENT);
+				stub.push_back(HEARTBEATREQUEST);
+				stub.push_back(CLEARSTOCKS);
+				stub.push_back(CLEARCLIENT);
+				stub.push_back(VERSION);
+				// send entire feature set back to client
+				TLSend(FEATURERESPONSE,SerializeIntVec(stub),msg);
+				return OK;
+			}
+		case VERSION :
+			return MinorVer;
+		case DOMREQUEST :
+			{
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -262,19 +273,19 @@ namespace TradeLibFast
 				D(CString(_T("Client ")+client+_T(" registered: ")));
 				HeartBeat(client);
 				return DOMRequest(atoi(rec[1]));
-				}
-			default: // unknown messages
-				{
-					int um = UnknownMessage(type,msg);
-					// issue #141
-					CString data;
-					data.Format("%i",um);
-					for (uint i = 0; i<client.size(); i++)
-						TLSend(type,data,i);
-					// this will go away soon
-					return um;
+			}
+		default: // unknown messages
+			{
+				int um = UnknownMessage(type,msg);
+				// issue #141
+				CString data;
+				data.Format("%i",um);
+				for (uint i = 0; i<client.size(); i++)
+					TLSend(type,data,i);
+				// this will go away soon
+				return um;
 
-				}
+			}
 		}
 
 		return FEATURE_NOT_IMPLEMENTED;
@@ -311,14 +322,20 @@ namespace TradeLibFast
 
 	int TLServer_WM::HeartBeat(CString clientname)
 	{
-			int cid = FindClient(clientname);
-			if (cid==-1) return -1;
-			time_t now;
-			time(&now);
-			time_t then = heart[cid];
-			double dif = difftime(now,then);
-			heart[cid] = now;
-			return (int)dif;
+		if (this->TLDEBUG_LEVEL >= 3){
+			CString debug_message;
+			debug_message.Format("TLServer_WM::HeartBeat: clientname='%s'", clientname);
+			D3(debug_message);
+		}
+
+		int cid = FindClient(clientname);
+		if (cid==-1) return -1;
+		time_t now;
+		time(&now);
+		time_t then = heart[cid];
+		double dif = difftime(now,then);
+		heart[cid] = now;
+		return (int)dif;
 	}
 
 	int TLServer_WM::RegisterStocks(CString clientname) 
@@ -374,13 +391,13 @@ namespace TradeLibFast
 	void TLServer_WM::D(const CString & message)
 	{
 
-		if (this->TLDEBUG)
+		if (this->TLDEBUG_LEVEL >= 0)
 		{
 			const CString NEWLINE = "\n";
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("%i %s",now[TLtime],message);
+			line.Format("%06i %s",now[TLtime],message);
 			debugbuffer.Append(line);
 			if (LOGENABLED)
 			{
@@ -390,6 +407,72 @@ namespace TradeLibFast
 				log.flush();
 			}
 			__raise this->GotDebug(line);
+		}
+	}
+
+	void TLServer_WM::D1(const CString & message)
+	{
+
+		if (this->TLDEBUG_LEVEL >= 1)
+		{
+			const CString NEWLINE = "\n";
+			CString line;
+			vector<int> now;
+			TLTimeNow(now);
+			line.Format("dbg1 %06i %s",now[TLtime],message);
+			debugbuffer.Append(line);
+			if (LOGENABLED)
+			{
+				// write it
+				log<<line<<endl;
+				// ensure log is written now
+				log.flush();
+			}
+			__raise this->GotDebug1(line);
+		}
+	}
+
+	void TLServer_WM::D2(const CString & message)
+	{
+
+		if (this->TLDEBUG_LEVEL >= 2)
+		{
+			const CString NEWLINE = "\n";
+			CString line;
+			vector<int> now;
+			TLTimeNow(now);
+			line.Format("dbg2 %06i %s",now[TLtime],message);
+			debugbuffer.Append(line);
+			if (LOGENABLED)
+			{
+				// write it
+				log<<line<<endl;
+				// ensure log is written now
+				log.flush();
+			}
+			__raise this->GotDebug2(line);
+		}
+	}
+
+	void TLServer_WM::D3(const CString & message)
+	{
+
+		if (this->TLDEBUG_LEVEL >= 3)
+		{
+			const CString NEWLINE = "\n";
+			CString line;
+			vector<int> now;
+			TLTimeNow(now);
+			line.Format("dbg3 %06i %s",now[TLtime],message);
+			debugbuffer.Append(line);
+			if (LOGENABLED)
+			{
+				// write it
+				log<<line<<endl;
+				// ensure log is written now
+				log.flush();
+			}
+			__raise this->GotDebug3(line);
 		}
 	}
 
@@ -422,7 +505,7 @@ namespace TradeLibFast
 					if (stocks[i][j]==tick.sym)
 						TLSend(TICKNOTIFY,tick.Serialize(),i);
 				}
-			return;
+				return;
 		}
 		// otherwise get only clients by their index
 		clientindex symclients = symclientidx[tick.symid];
@@ -476,7 +559,7 @@ namespace TradeLibFast
 					tl->_readticks = 0;
 					tl->_tickflip = false;
 				}
-				
+
 				// this is from asyncresponse, but may not be same
 				// functions because it doesn't appear to behave as nicely
 				//ResetEvent(tl->_tickswaiting);
@@ -527,19 +610,25 @@ namespace TradeLibFast
 	}
 	bool checkFileExists(LPCTSTR dirName) 
 	{ 
-	  WIN32_FIND_DATA  data; 
-	  HANDLE handle = FindFirstFile(dirName,&data); 
-	  if (handle != INVALID_HANDLE_VALUE)
-	  {
-		FindClose(handle);
-		return true;
-	  }
+		WIN32_FIND_DATA  data; 
+		HANDLE handle = FindFirstFile(dirName,&data); 
+		if (handle != INVALID_HANDLE_VALUE)
+		{
+			FindClose(handle);
+			return true;
+		}
 
-	  return false;
+		return false;
 	}
 	void TLServer_WM::Start() 
 	{
-		
+		CString log_prefix("TLServer_WM::Start():");
+
+		//D(log_prefix + " testing D");
+		//D1(log_prefix + " testing D1");
+		//D2(log_prefix + " testing D2");
+		//D3(log_prefix + " testing D3");
+
 		if (!ENABLED)
 		{
 			ENABLED = true;
@@ -557,26 +646,31 @@ namespace TradeLibFast
 				// get log file name
 				std::vector<int> now;
 				TLTimeNow(now);
-				CString fn;
-				fn.Format("%s\\%s.%i.txt",augpath,PROGRAM,now[0]);
-				log.open(fn,ios::app);
+				CString path_to_logfile;
+				path_to_logfile.Format("%s\\%s.%i.txt",augpath,PROGRAM,now[0]);
+				log.open(path_to_logfile, ios::app);
+
+				CString debug_message;
+				debug_message.Format("%s see the log: %s", log_prefix, path_to_logfile);  // dimon: let user see where the logs are
+				D1(debug_message);
 			}
 
 			CString servername = UniqueWindowName("TradeLinkServer");
 			CWnd* parent = CWnd::GetDesktopWindow();
-			this->Create(NULL, servername, 0,CRect(0,0,20,20),parent ,NULL);
+			this->Create(NULL, servername, 0, CRect(0, 0, 20, 20), parent, NULL);
 			this->ShowWindow(SW_HIDE); // hide our window
-			CString msg;
-			msg.Format("Started TL BrokerServer %s [ %.1f.%i]",servername,MajorVer,MinorVer);
-			this->D(msg);
+			//this->ShowWindow(SW_SHOW); // dimon: show our window ;)
 
+			CString msg;
+			msg.Format("%s Started %s [ %.1f.%i]", log_prefix, servername, MajorVer, MinorVer);
+			this->D(msg);
 		}
-		
-					
+
+
 	}
 
 
-	
+
 	long TLServer_WM::TLSend(int type,LPCTSTR msg,int clientid) 
 	{
 		// make sure client exists
@@ -594,7 +688,7 @@ namespace TradeLibFast
 	{
 		// set default result
 		LRESULT result = TLCLIENT_NOT_FOUND;
-		
+
 		if (dest) 
 		{
 			COPYDATASTRUCT CD;  // windows-provided structure for this purpose

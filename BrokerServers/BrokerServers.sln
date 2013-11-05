@@ -68,4 +68,7 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		AMDCaProjectFile = C:\Users\jfranta\Desktop\TLS\BrokerServers\CodeAnalyst\BrokerServers.caw
 	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 EndGlobal
