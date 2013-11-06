@@ -25,7 +25,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
-
+	CString NEWLINE;// = "\r\n";
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -39,6 +39,8 @@ protected:
 	CEdit m_status1;
 	CEdit m_status2;
 	CEdit m_status3;
+	CEdit m_status4;
+	bool sync_all_statuses_scrolling;
 	
 	TradeLibFast::TWS_TLServer* tl;
 	
@@ -46,12 +48,14 @@ protected:
 	int m_status1_lines_count;
 	int m_status2_lines_count;
 	int m_status3_lines_count;
+	int m_status4_lines_count;
 public:
-	void cstat(CString msg);
+	//void cstat(CString msg);
 	
 	void status(LPCTSTR msg);
 	void status1(LPCTSTR msg);
 	void status2(LPCTSTR msg);
 	void status3(LPCTSTR msg);
+	void status4(LPCTSTR msg);
 
 };

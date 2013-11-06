@@ -54,7 +54,7 @@ namespace TradeLink.Common
         public const int TLDEFAULTTESTPORT = 51000;
         public const string LOCALHOST = "127.0.0.1";
         public const string CLIENTNAME = "TradeLinkClient";
-        public const string SERVERNAME = "TradeLinkServer";
+        public const string SERVERNAME = "TradeLinkServer";     // dimon: these names must match server window created in TLServer_WM.cpp
 
         public const int SENDHEARTBEATMS = 3000;
         public const int HEARTBEATDEADMS = SENDHEARTBEATMS * 2;

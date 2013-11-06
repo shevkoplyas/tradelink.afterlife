@@ -80,7 +80,7 @@ namespace TradeLibFast
 	{
 		CString ver;
 		ver.Format("%.1f.%i",MajorVer,MinorVer);
-		D3("TLServer_WM::Version(): " + ver);
+		D("TLServer_WM::Version(): " + ver);
 		return ver;
 	}
 
@@ -92,7 +92,7 @@ namespace TradeLibFast
 
 	bool TLServer_WM::needStock(CString stock)
 	{
-		D3("TLServer_WM::needStock " + stock);
+		D("TLServer_WM::needStock " + stock);
 		int idx = FindSym(stock);
 		if (idx==-1) return false;
 		bool needed = symclientidx[idx].size()!=0;
@@ -101,6 +101,7 @@ namespace TradeLibFast
 
 	int TLServer_WM::FindClient(CString cwind)
 	{
+		D("TLServer_WM::FindClient(CString cwind)");
 		size_t len = client.size();
 		for (size_t i = 0; i<len; i++) if (client[i]==cwind) return (int)i;
 		return -1;
@@ -200,18 +201,23 @@ namespace TradeLibFast
 		{
 		case ORDERCANCELREQUEST :
 			{
+				D2("ORDERCANCELREQUEST");
 				const char * ch = msg.GetBuffer();
 				int64 id = _atoi64(ch);
 				return CancelRequest(id);
 			}
 		case ACCOUNTREQUEST :
+				D2("ACCOUNTREQUEST");
 			return AccountResponse(msg);
 		case CLEARCLIENT :
+				D2("CLEARCLIENT");
 			return ClearClient(msg);
 		case CLEARSTOCKS :
+				D2("CLEARSTOCKS");
 			return ClearStocks(msg);
 		case REGISTERSTOCK :
 			{
+				D2("REGISTERSTOCK");
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -233,21 +239,27 @@ namespace TradeLibFast
 			}
 		case POSITIONREQUEST :
 			{
+				D2("REGISTERSTOCK");
 				vector<CString> r;
 				gsplit(msg,CString("+"),r);
 				if (r.size()!=2) return UNKNOWN_MESSAGE;
 				return PositionResponse(r[1],r[0]);
 			}
 		case REGISTERCLIENT :
+				D2("REGISTERCLIENT");
 			return RegisterClient(msg);
 		case HEARTBEATREQUEST :
+				D2("HEARTBEATREQUEST");
 			return HeartBeat(msg);
 		case BROKERNAME :
+				D2("BROKERNAME");
 			return BrokerName();
 		case SENDORDER :
+				D2("SENDORDER");
 			return SendOrder(TLOrder::Deserialize(msg));
 		case FEATUREREQUEST:
 			{
+				D2("FEATUREREQUEST");
 				// get features supported by child class
 				std::vector<int> stub = GetFeatures();
 				// append basic feature we provide as parent
@@ -261,9 +273,12 @@ namespace TradeLibFast
 				return OK;
 			}
 		case VERSION :
+							D2("VERSION");
+
 			return MinorVer;
 		case DOMREQUEST :
 			{
+				D2("DOMREQUEST");
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -276,6 +291,7 @@ namespace TradeLibFast
 			}
 		default: // unknown messages
 			{
+				D2("default: unknown version");
 				int um = UnknownMessage(type,msg);
 				// issue #141
 				CString data;
@@ -399,7 +415,7 @@ namespace TradeLibFast
 			TLTimeNow(now);
 			line.Format("%06i %s",now[TLtime],message);
 			debugbuffer.Append(line);
-			if (LOGENABLED)
+			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
 				log<<line<<endl;
@@ -421,7 +437,7 @@ namespace TradeLibFast
 			TLTimeNow(now);
 			line.Format("dbg1 %06i %s",now[TLtime],message);
 			debugbuffer.Append(line);
-			if (LOGENABLED)
+			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
 				log<<line<<endl;
@@ -443,7 +459,7 @@ namespace TradeLibFast
 			TLTimeNow(now);
 			line.Format("dbg2 %06i %s",now[TLtime],message);
 			debugbuffer.Append(line);
-			if (LOGENABLED)
+			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
 				log<<line<<endl;
@@ -465,7 +481,7 @@ namespace TradeLibFast
 			TLTimeNow(now);
 			line.Format("dbg3 %06i %s",now[TLtime],message);
 			debugbuffer.Append(line);
-			if (LOGENABLED)
+			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
 				log<<line<<endl;
@@ -473,6 +489,28 @@ namespace TradeLibFast
 				log.flush();
 			}
 			__raise this->GotDebug3(line);
+		}
+	}
+
+	void TLServer_WM::D4(const CString & message)
+	{
+
+		if (this->TLDEBUG_LEVEL >= 4)
+		{
+			const CString NEWLINE = "\n";
+			CString line;
+			vector<int> now;
+			TLTimeNow(now);
+			line.Format("dbg4 %06i %s",now[TLtime],message);
+			debugbuffer.Append(line);
+			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
+			{
+				// write it
+				log<<line<<endl;
+				// ensure log is written now
+				log.flush();
+			}
+			__raise this->GotDebug4(line);
 		}
 	}
 
@@ -624,10 +662,11 @@ namespace TradeLibFast
 	{
 		CString log_prefix("TLServer_WM::Start():");
 
-		//D(log_prefix + " testing D");
-		//D1(log_prefix + " testing D1");
-		//D2(log_prefix + " testing D2");
-		//D3(log_prefix + " testing D3");
+		D(log_prefix + " testing D");
+		D1(log_prefix + " testing D1");
+		D2(log_prefix + " testing D2");
+		D3(log_prefix + " testing D3");
+		D4(log_prefix + " testing D4");
 
 		if (!ENABLED)
 		{
@@ -655,7 +694,7 @@ namespace TradeLibFast
 				D1(debug_message);
 			}
 
-			CString servername = UniqueWindowName("TradeLinkServer");
+			CString servername = UniqueWindowName("TradeLinkServer");	// dimon: this name must match server window created in TLTransport.cs (c# portion - our clients ASP, Quotopia, etc.)) 
 			CWnd* parent = CWnd::GetDesktopWindow();
 			this->Create(NULL, servername, 0, CRect(0, 0, 20, 20), parent, NULL);
 			this->ShowWindow(SW_HIDE); // hide our window
@@ -663,6 +702,15 @@ namespace TradeLibFast
 
 			CString msg;
 			msg.Format("%s Started %s [ %.1f.%i]", log_prefix, servername, MajorVer, MinorVer);
+			this->D(msg);
+
+			msg.Format("IB API Version:");
+			this->D(msg);
+
+			msg.Format("        API 9.69");
+			this->D(msg);
+
+			msg.Format("        Release Date: July 1 2012");
 			this->D(msg);
 		}
 

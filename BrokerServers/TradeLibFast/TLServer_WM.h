@@ -20,9 +20,10 @@ const int MAXTICKS = 10000;
 		bool ENABLED;
 		bool LOGENABLED;
 		__event void GotDebug(LPCTSTR msg);
-		__event void GotDebug1(LPCTSTR msg); // dimon: levels 1-3 are sort of "more verbose" channels
+		__event void GotDebug1(LPCTSTR msg); // dimon: levels 1-4 are sort of "more verbose" channels
 		__event void GotDebug2(LPCTSTR msg); // which can be usefull to show all the messages flying by
 		__event void GotDebug3(LPCTSTR msg); // normally should be turned off
+		__event void GotDebug4(LPCTSTR msg); // normally should be turned off
 		CString debugbuffer;
 		long TLSend(int type,LPCTSTR msg, int clientid);
 		static long TLSend(int type,LPCTSTR msg, HWND dest);
@@ -90,7 +91,7 @@ const int MAXTICKS = 10000;
 		void D1(const CString & message);
 		void D2(const CString & message);
 		void D3(const CString & message);
-
+		void D4(const CString & message);
 
 		bool HaveSubscriber(CString stock);
 		
