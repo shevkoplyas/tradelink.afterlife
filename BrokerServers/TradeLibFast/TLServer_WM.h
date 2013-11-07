@@ -51,6 +51,12 @@ const int MAXTICKS = 10000;
 		int FindClient(CString clientname);
 		double MajorVer;
 		int MinorVer;
+		
+		CString NEWLINE;
+
+		int same_sec_timestamp_counter;	// when more than 1 event happen within 1 sec we'll tell them apart by this counter (inside given second.. then it is reset to zero again)
+		int previously_reported_TLtime;
+		int get_same_sec_timestamp_counter( int TLtime_now);
 
 		vector<int> imbclient;
 		vector <CString>client; // map client ids to name

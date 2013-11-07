@@ -23,6 +23,12 @@ namespace TradeLibFast
 		LOGENABLED = true;
 		debugbuffer = CString("");
 
+		NEWLINE = "\r\n";
+		//NEWLINE = "\n";
+
+		same_sec_timestamp_counter = 0;
+		previously_reported_TLtime = 0;
+
 		/*
 		"we no longer read version number from: C:\Program Files (x86)\TradeLink\VERSION.txt"
 		std::ifstream file;
@@ -56,7 +62,6 @@ namespace TradeLibFast
 		_writeticks = 0;
 		_go = true;
 		_startthread = false;
-
 	}
 
 	TLServer_WM::~TLServer_WM()
@@ -201,23 +206,23 @@ namespace TradeLibFast
 		{
 		case ORDERCANCELREQUEST :
 			{
-				D2("ORDERCANCELREQUEST");
+				D4("ORDERCANCELREQUEST");
 				const char * ch = msg.GetBuffer();
 				int64 id = _atoi64(ch);
 				return CancelRequest(id);
 			}
 		case ACCOUNTREQUEST :
-				D2("ACCOUNTREQUEST");
+			D4("ACCOUNTREQUEST");
 			return AccountResponse(msg);
 		case CLEARCLIENT :
-				D2("CLEARCLIENT");
+			D4("CLEARCLIENT");
 			return ClearClient(msg);
 		case CLEARSTOCKS :
-				D2("CLEARSTOCKS");
+			D4("CLEARSTOCKS");
 			return ClearStocks(msg);
 		case REGISTERSTOCK :
 			{
-				D2("REGISTERSTOCK");
+				D4("REGISTERSTOCK");
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -239,27 +244,27 @@ namespace TradeLibFast
 			}
 		case POSITIONREQUEST :
 			{
-				D2("REGISTERSTOCK");
+				D4("REGISTERSTOCK");
 				vector<CString> r;
 				gsplit(msg,CString("+"),r);
 				if (r.size()!=2) return UNKNOWN_MESSAGE;
 				return PositionResponse(r[1],r[0]);
 			}
 		case REGISTERCLIENT :
-				D2("REGISTERCLIENT");
+			D4("REGISTERCLIENT");
 			return RegisterClient(msg);
 		case HEARTBEATREQUEST :
-				D2("HEARTBEATREQUEST");
+			D4("HEARTBEATREQUEST");
 			return HeartBeat(msg);
 		case BROKERNAME :
-				D2("BROKERNAME");
+			D4("BROKERNAME");
 			return BrokerName();
 		case SENDORDER :
-				D2("SENDORDER");
+			D4("SENDORDER");
 			return SendOrder(TLOrder::Deserialize(msg));
 		case FEATUREREQUEST:
 			{
-				D2("FEATUREREQUEST");
+				D4("FEATUREREQUEST");
 				// get features supported by child class
 				std::vector<int> stub = GetFeatures();
 				// append basic feature we provide as parent
@@ -269,16 +274,17 @@ namespace TradeLibFast
 				stub.push_back(CLEARCLIENT);
 				stub.push_back(VERSION);
 				// send entire feature set back to client
+				D3("FEATURERESPONSE" + SerializeIntVec(stub));
 				TLSend(FEATURERESPONSE,SerializeIntVec(stub),msg);
 				return OK;
 			}
 		case VERSION :
-							D2("VERSION");
+			D4("VERSION");
 
 			return MinorVer;
 		case DOMREQUEST :
 			{
-				D2("DOMREQUEST");
+				D4("DOMREQUEST");
 				vector<CString> rec;
 				gsplit(msg,CString("+"),rec);
 				CString client = rec[0];
@@ -291,13 +297,16 @@ namespace TradeLibFast
 			}
 		default: // unknown messages
 			{
-				D2("default: unknown version");
+				D4("default: unknown message from client");
 				int um = UnknownMessage(type,msg);
 				// issue #141
 				CString data;
 				data.Format("%i",um);
 				for (uint i = 0; i<client.size(); i++)
+				{
+					D3("response to unknown message back to client");
 					TLSend(type,data,i);
+				}
 				// this will go away soon
 				return um;
 
@@ -403,17 +412,34 @@ namespace TradeLibFast
 		return OK;
 	}
 
+	int TLServer_WM::get_same_sec_timestamp_counter( int TLtime_now)
+	{
+		// are we still inside same as "prev" second?
+		if (previously_reported_TLtime != TLtime_now)
+		{
+			// no.. update "prev" value
+			previously_reported_TLtime = TLtime_now;
+			// reset counter
+			same_sec_timestamp_counter = 0;
+			return same_sec_timestamp_counter;
+		}
+		else
+		{
+			// yes, same. Increase counter
+			same_sec_timestamp_counter++;
+			return same_sec_timestamp_counter;
+		}
+	}
 
 	void TLServer_WM::D(const CString & message)
 	{
 
 		if (this->TLDEBUG_LEVEL >= 0)
 		{
-			const CString NEWLINE = "\n";
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("%06i %s",now[TLtime],message);
+			line.Format("%06i.%i %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
 			debugbuffer.Append(line);
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
@@ -422,7 +448,7 @@ namespace TradeLibFast
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug(line);
+			__raise this->GotDebug(line); // asdf , timestamped_at()
 		}
 	}
 
@@ -431,11 +457,10 @@ namespace TradeLibFast
 
 		if (this->TLDEBUG_LEVEL >= 1)
 		{
-			const CString NEWLINE = "\n";
 			CString line;
-			vector<int> now;
+			vector<int> now(2); // will hold 2 integers: date, time
 			TLTimeNow(now);
-			line.Format("dbg1 %06i %s",now[TLtime],message);
+			line.Format("dbg1: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
 			debugbuffer.Append(line);
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
@@ -453,11 +478,10 @@ namespace TradeLibFast
 
 		if (this->TLDEBUG_LEVEL >= 2)
 		{
-			const CString NEWLINE = "\n";
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg2 %06i %s",now[TLtime],message);
+			line.Format("dbg2: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
 			debugbuffer.Append(line);
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
@@ -472,14 +496,12 @@ namespace TradeLibFast
 
 	void TLServer_WM::D3(const CString & message)
 	{
-
 		if (this->TLDEBUG_LEVEL >= 3)
 		{
-			const CString NEWLINE = "\n";
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg3 %06i %s",now[TLtime],message);
+			line.Format("dbg3: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
 			debugbuffer.Append(line);
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
@@ -497,11 +519,10 @@ namespace TradeLibFast
 
 		if (this->TLDEBUG_LEVEL >= 4)
 		{
-			const CString NEWLINE = "\n";
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg4 %06i %s",now[TLtime],message);
+			line.Format("dbg4: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
 			debugbuffer.Append(line);
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
@@ -520,7 +541,10 @@ namespace TradeLibFast
 			return;
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
+			{
+				D3("ORDERNOTIFY" + order.Serialize());
 				TLSend(ORDERNOTIFY,order.Serialize(),client[i]);
+			}
 	}
 
 	void TLServer_WM::SrvGotFill(TLTrade trade)
@@ -528,11 +552,15 @@ namespace TradeLibFast
 		if (!trade.isValid()) return;
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
+			{
+				D3("EXECUTENOTIFY" + trade.Serialize());
 				TLSend(EXECUTENOTIFY,trade.Serialize(),client[i]);
+			}
 	}
 
 	void TLServer_WM::SrvGotTick(TLTick tick)
 	{
+		D1("SrvGotTick:"+tick.Serialize());
 		// if tick has no symbol index, send it old way
 		if (tick.symid<0)
 		{
@@ -541,7 +569,10 @@ namespace TradeLibFast
 				for (uint j = 0; j<stocks[i].size(); j++)
 				{
 					if (stocks[i][j]==tick.sym)
+					{
+						D3("TICKNOTIFY (a)" + tick.Serialize());
 						TLSend(TICKNOTIFY,tick.Serialize(),i);
+					}
 				}
 				return;
 		}
@@ -549,21 +580,28 @@ namespace TradeLibFast
 		clientindex symclients = symclientidx[tick.symid];
 		for (uint i = 0; i<symclients.size(); i++)
 		{
+			D3("TICKNOTIFY (b)" + tick.Serialize());
 			TLSend(TICKNOTIFY,tick.Serialize(),symclients[i]);
 		}
 	}
 
 	void TLServer_WM::SrvGotCancel(int64 orderid)
 	{
+		D1("SrvGotCancel");
 		CString id;
 		id.Format(_T("%I64d"),orderid);
+		D1("SrvGotCancel"+id);
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
+			{
+				D3("ORDERCANCELRESPONSE");
 				TLSend(ORDERCANCELRESPONSE,id,client[i]);
+			}
 	}
 
 	int TLServer_WM::CancelRequest(int64 order)
 	{
+		D("warning: CancelRequest - FEATURE_NOT_IMPLEMENTED");
 		return FEATURE_NOT_IMPLEMENTED;
 	}
 
@@ -613,6 +651,7 @@ namespace TradeLibFast
 
 	void TLServer_WM::SrvGotTickAsync(TLTick k)
 	{
+		D1("SrvGotTickAsync");
 		// if thread is stopped don't restart it
 		if (!_go) return;
 		// add tick to queue and increment
@@ -691,7 +730,7 @@ namespace TradeLibFast
 
 				CString debug_message;
 				debug_message.Format("%s see the log: %s", log_prefix, path_to_logfile);  // dimon: let user see where the logs are
-				D1(debug_message);
+				D(debug_message);
 			}
 
 			CString servername = UniqueWindowName("TradeLinkServer");	// dimon: this name must match server window created in TLTransport.cs (c# portion - our clients ASP, Quotopia, etc.)) 

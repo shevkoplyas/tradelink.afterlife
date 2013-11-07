@@ -211,5 +211,6 @@ bool EClientSocket::handleSocketError( int lastError)
 
 bool EClientSocket::isSocketOK() const
 {
+	//return (m_pSocket.get() == 0);
 	return m_pSocket.get();
 }
