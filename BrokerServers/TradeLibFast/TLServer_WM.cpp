@@ -439,16 +439,18 @@ namespace TradeLibFast
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("%06i.%i %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
+			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
+			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);
 			debugbuffer.Append(line);
+			CString prefix("commn:");
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
-				log<<line<<endl;
+				log << prefix << line << endl;
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug(line); // asdf , timestamped_at()
+			__raise this->GotDebug( line, now[TLtime],tltime_counter);
 		}
 	}
 
@@ -460,16 +462,18 @@ namespace TradeLibFast
 			CString line;
 			vector<int> now(2); // will hold 2 integers: date, time
 			TLTimeNow(now);
-			line.Format("dbg1: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
+			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
+			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);
 			debugbuffer.Append(line);
+			CString prefix("IB->S:");
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
-				log<<line<<endl;
+				log << prefix << line << endl;
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug1(line);
+			__raise this->GotDebug1(line, now[TLtime],tltime_counter);
 		}
 	}
 
@@ -481,16 +485,18 @@ namespace TradeLibFast
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg2: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
+			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
+			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);
 			debugbuffer.Append(line);
+			CString prefix("IB<-S:");
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
-				log<<line<<endl;
+				log << prefix << line << endl;
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug2(line);
+			__raise this->GotDebug2( line, now[TLtime],tltime_counter);
 		}
 	}
 
@@ -501,16 +507,18 @@ namespace TradeLibFast
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg3: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
+			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
+			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);
 			debugbuffer.Append(line);
+			CString prefix("S->CL:");
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
-				log<<line<<endl;
+				log << prefix << line << endl;
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug3(line);
+			__raise this->GotDebug3( line, now[TLtime],tltime_counter);
 		}
 	}
 
@@ -522,16 +530,18 @@ namespace TradeLibFast
 			CString line;
 			vector<int> now;
 			TLTimeNow(now);
-			line.Format("dbg4: %06i.%i: %s", now[TLtime], get_same_sec_timestamp_counter(now[TLtime]), message);
+			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
+			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);
 			debugbuffer.Append(line);
+			CString prefix("S<-CL:");
 			if (LOGENABLED && line.GetLength() > 0)	// dimon: and skip empty lines in a log file
 			{
 				// write it
-				log<<line<<endl;
+				log << prefix << line << endl;
 				// ensure log is written now
 				log.flush();
 			}
-			__raise this->GotDebug4(line);
+			__raise this->GotDebug4( line, now[TLtime],tltime_counter);
 		}
 	}
 
@@ -701,11 +711,11 @@ namespace TradeLibFast
 	{
 		CString log_prefix("TLServer_WM::Start():");
 
-		D(log_prefix + " testing D");
-		D1(log_prefix + " testing D1");
-		D2(log_prefix + " testing D2");
-		D3(log_prefix + " testing D3");
-		D4(log_prefix + " testing D4");
+		D(log_prefix + " testing D()");
+		D1(log_prefix + " testing D1()");
+		D2(log_prefix + " testing D2()");
+		D3(log_prefix + " testing D3()");
+		D4(log_prefix + " testing D4()");
 
 		if (!ENABLED)
 		{
@@ -746,7 +756,7 @@ namespace TradeLibFast
 			msg.Format("IB API Version:");
 			this->D(msg);
 
-			msg.Format("        API 9.69");
+			msg.Format("        API 9.69"); // todo: each time you manually upgrade TLServer to use newer api version, don't forget to replace it here..
 			this->D(msg);
 
 			msg.Format("        Release Date: July 1 2012");

@@ -33,6 +33,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); // dimon: todo: why this never fires up?
 	DECLARE_MESSAGE_MAP()
 
 	CEdit m_status;
@@ -49,14 +50,15 @@ protected:
 	int m_status2_lines_count;
 	int m_status3_lines_count;
 	int m_status4_lines_count;
-public:
-	//void cstat(CString msg);
+	CFont myMonospaceFont;
 
-	void status(LPCTSTR msg);
-	void status1(LPCTSTR msg);
-	void status2(LPCTSTR msg);
-	void status3(LPCTSTR msg);
-	void status4(LPCTSTR msg);
+public:
+	
+	void status(LPCTSTR msg, int tltime=-1, int tltime_counter=-1);
+	void status1(LPCTSTR msg, int tltime=-1, int tltime_counter=-1);
+	void status2(LPCTSTR msg, int tltime=-1, int tltime_counter=-1);
+	void status3(LPCTSTR msg, int tltime=-1, int tltime_counter=-1);
+	void status4(LPCTSTR msg, int tltime=-1, int tltime_counter=-1);
 
 	// these two will get/set value from/to cedit on our dialog
 	int get_debuglevel();
@@ -74,4 +76,8 @@ public:
 	CStatic m_static2;
 	CStatic m_static3;
 	CStatic m_static4;
+	afx_msg void OnEnVscrollStatus();
+	CButton m_autoscroll;
+
+	BOOL CTWSServerDlg::PreTranslateMessage(MSG* pMsg);
 };

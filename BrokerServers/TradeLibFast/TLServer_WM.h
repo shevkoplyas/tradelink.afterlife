@@ -19,11 +19,11 @@ const int MAXTICKS = 10000;
 		int TLDEBUG_LEVEL;
 		bool ENABLED;
 		bool LOGENABLED;
-		__event void GotDebug(LPCTSTR msg);
-		__event void GotDebug1(LPCTSTR msg); // dimon: levels 1-4 are sort of "more verbose" channels
-		__event void GotDebug2(LPCTSTR msg); // which can be usefull to show all the messages flying by
-		__event void GotDebug3(LPCTSTR msg); // normally should be turned off
-		__event void GotDebug4(LPCTSTR msg); // normally should be turned off
+		__event void GotDebug(LPCTSTR msg, int tltime, int tltime_counter);
+		__event void GotDebug1(LPCTSTR msg, int tltime, int tltime_counter); // dimon: levels 1-4 are sort of "more verbose" channels
+		__event void GotDebug2(LPCTSTR msg, int tltime, int tltime_counter); // which can be usefull to show all the messages flying by
+		__event void GotDebug3(LPCTSTR msg, int tltime, int tltime_counter); // normally should be turned off
+		__event void GotDebug4(LPCTSTR msg, int tltime, int tltime_counter); // normally should be turned off
 		CString debugbuffer;
 		long TLSend(int type,LPCTSTR msg, int clientid);
 		static long TLSend(int type,LPCTSTR msg, HWND dest);
