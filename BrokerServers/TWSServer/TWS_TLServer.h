@@ -30,8 +30,8 @@ namespace TradeLibFast
 		std::vector<int> GetFeatures();
 		int UnknownMessage(int MessageType, CString msg);
 		void Start(void);
-	    //ILDEBEGIN
-        int DOMRequest(int depth);
+		//ILDEBEGIN
+		int DOMRequest(int depth);
 		int TWS_TLServer::findStockticksTid(CString symbol);
 		//ILDEEND
 
@@ -84,7 +84,7 @@ namespace TradeLibFast
 		int findIBOrder(OrderId ibid);
 		int64 saveOrder(OrderId ibid, CString acct);
 		OrderId newOrder(int64 tlid,CString acct);
-		
+
 		bool hasAccount(CString account);
 		std::vector<int> validlinkids; // gets the m_links ids that are logged in
 		bool IGNOREERRORS;
@@ -106,15 +106,15 @@ namespace TradeLibFast
 		void tickPrice( TickerId ddeId, TickType field, double price, int canAutoExecute);
 		void tickSize( TickerId ddeId, TickType field, int size);
 
-//		void tickOptionComputation( TickerId ddeId, TickType field, double impliedVol,
-//			double delta, double modelPrice, double pvDividend);
+		//		void tickOptionComputation( TickerId ddeId, TickType field, double impliedVol,
+		//			double delta, double modelPrice, double pvDividend);
 
 		void tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
 			double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 
-// dimon: all these with empty {} basically ignored by TrLink? (see .cpp file)
-void openOrderEnd();
-void accountDownloadEnd(const IBString& accountName);
+		// dimon: all these with empty {} basically ignored by TrLink? (see .cpp file)
+		void openOrderEnd();
+		void accountDownloadEnd(const IBString& accountName);
 
 		void tickGeneric(TickerId tickerId, TickType tickType, double value);
 		void tickString(TickerId tickerId, TickType tickType, const CString& value);
@@ -140,25 +140,25 @@ void accountDownloadEnd(const IBString& accountName);
 
 		// void execDetails( OrderId orderId, const Contract& contract, const Execution& execution);	// dimon: old execDetails()
 		void execDetails( int reqId, const Contract& contract, const Execution& execution);          // new one..
-void execDetailsEnd( int reqId);
+		void execDetailsEnd( int reqId);
 
 		void error(const int id, const int errorCode, const CString errorString);
 
 		void updateMktDepth( TickerId id, int position, int operation, int side, 
-				double price, int size);
+			double price, int size);
 		void updateMktDepthL2( TickerId id, int position, CString marketMaker, int operation, 
-				int side, double price, int size);
+			int side, double price, int size);
 		void updateNewsBulletin(int msgId, int msgType, const CString& newsMessage, const CString& originExch);
 		void managedAccounts(const CString& accountsList);
 		void receiveFA(faDataType pFaDataType, const CString& cxml);
 		void historicalData(TickerId reqId, const CString& date, double open, double high, double low,
-						  double close, int volume, int barCount, double WAP, int hasGaps) ;
+			double close, int volume, int barCount, double WAP, int hasGaps) ;
 		void scannerParameters(const CString &xml);
 		void scannerData(int reqId, int rank, const ContractDetails &contractDetails, const CString &distance,
 			const CString &benchmark, const CString &projection, const CString &legsStr);
 		void scannerDataEnd(int reqId);
 		void realtimeBar(TickerId reqId, long time, double open, double high, double low, double close,
-		   long volume, double wap, int count);
+			long volume, double wap, int count);
 		void currentTime(long time);
 		void fundamentalData(TickerId reqId, const CString& data);
 
@@ -166,15 +166,14 @@ void execDetailsEnd( int reqId);
 		// EWrapper.h  old/EWrapper.h
 		// 
 		// you'll see IB added few more virtual methods to EWrapper as well as changed parameters for some exixting ones.
-		// Lets work!  :)
-		void deltaNeutralValidation(int reqId, const UnderComp& underComp){};
-		void tickSnapshotEnd( int reqId){};
-		void marketDataType( TickerId reqId, int marketDataType){};
-		void commissionReport( const CommissionReport &commissionReport){};
-		void position( const IBString& account, const Contract& contract, int position){};
-		void positionEnd(){};
-		void accountSummary( int reqId, const IBString& account, const IBString& tag, const IBString& value, const IBString& curency){};
-		void accountSummaryEnd( int reqId){};
+		void deltaNeutralValidation(int reqId, const UnderComp& underComp);
+		void tickSnapshotEnd( int reqId);
+		void marketDataType( TickerId reqId, int marketDataType);
+		void commissionReport( const CommissionReport &commissionReport);
+		void position( const IBString& account, const Contract& contract, int position);
+		void positionEnd();
+		void accountSummary( int reqId, const IBString& account, const IBString& tag, const IBString& value, const IBString& curency);
+		void accountSummaryEnd( int reqId);
 
 
 		//BEGINILDE

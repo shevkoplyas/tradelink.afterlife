@@ -11,9 +11,6 @@
 //ILDEEND
 
 
-
-
-
 namespace TradeLibFast
 {
 	const char* CONFIGFILE = "TwsServer.Config.txt";
@@ -130,12 +127,12 @@ namespace TradeLibFast
 		D(CString(LINE));
 		InitSockets(maxsockets,sessionid);
 		D(CString(LINE));
-		
+
 		m.Format("Found %i of %i.",this->validlinkids.size(),maxsockets);
 		D(m);
 
 		D(CString("For more instances, change value in: ")+CONFIGFILE);
-		
+
 		m.Format("Found accounts: %s",gjoin(accts,","));
 		D(m);
 	}
@@ -302,6 +299,8 @@ namespace TradeLibFast
 		double high, double low,double close, int volume, 
 		int barCount, double WAP, int hasGaps) 
 	{
+		D1("TWS_TLServer::historicalData");
+
 		// get date from bar
 		CString dates = CString(datestring);
 		int64 unix = _atoi64(dates.GetBuffer());
@@ -556,6 +555,7 @@ namespace TradeLibFast
 	void TWS_TLServer::updateAccountValue( const CString &key, const CString &val,
 		const CString &currency, const CString &accountName) 
 	{
+		D1("TWS_TLServer::updateAccountValue");
 		// make sure we don't have this account already
 		if (!hasAccount(accountName))
 		{
@@ -569,6 +569,7 @@ namespace TradeLibFast
 
 	void TWS_TLServer::managedAccounts(const CString& accountsList)
 	{
+		D1("TWS_TLServer::managedAccounts");
 		CString msg(accountsList);
 		accts.push_back(msg); //save the list of FA accounts
 	}
@@ -600,6 +601,7 @@ namespace TradeLibFast
 
 	void TWS_TLServer::nextValidId( OrderId orderId) 
 	{ 
+		D1("TWS_TLServer::nextValidId");
 		if (orderId > nextIBID) nextIBID = orderId; // pick up maximum id among all accounts
 	}
 
@@ -630,6 +632,7 @@ namespace TradeLibFast
 	void TWS_TLServer::openOrder( OrderId orderId, const Contract& contract,
 		const Order& order, const OrderState& orderState)
 	{
+		D1("TWS_TLServer::openOrder");
 		// log warnings
 		if (orderState.warningText!="")
 		{
@@ -776,10 +779,12 @@ namespace TradeLibFast
 
 	void TWS_TLServer::winError( const CString &str, int lastError)
 	{
+		D1("TWS_TLServer::winError: " + str);
 		D(str);
 	}
 	void TWS_TLServer::error(const int id, const int errorCode, const CString errorString)
 	{
+		D1("TWS_TLServer::error: for some reason IB sends order cancels as an error rather than as an order update message");
 		// for some reason IB sends order cancels as an error rather than
 		// as an order update message
 		int64 tlid = IB2TLID(id);
@@ -798,6 +803,7 @@ namespace TradeLibFast
 	// reqId int The ID of the data request.
 	void   TWS_TLServer::execDetails( int reqId,       const Contract& contract, const Execution& execution)
 	{ 
+		D1("TWS_TLServer::execDetails");
 		OrderId orderId = execution.orderId; // dimon: will it fly?
 
 		// convert to a tradelink trade
@@ -869,7 +875,12 @@ namespace TradeLibFast
 		}
 	}
 
-	void TWS_TLServer::execDetailsEnd( int reqId){};
+	void TWS_TLServer::execDetailsEnd( int reqId)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::execDetailsEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
 
 	int TWS_TLServer::getsymbolindex(CString symbol)
 	{
@@ -1079,6 +1090,7 @@ namespace TradeLibFast
 
 	void TWS_TLServer::tickPrice( TickerId tickerId, TickType tickType, double price, int canAutoExecute) 
 	{ 
+		D1("TWS_TLServer::tickPrice");
 		if ((tickerId>=0)&&(tickerId<(TickerId)stockticks.size()) && needStock(stockticks[tickerId].sym))
 		{
 			time_t now;
@@ -1116,6 +1128,7 @@ namespace TradeLibFast
 
 	void TWS_TLServer::tickSize( TickerId tickerId, TickType tickType, int size) 
 	{ 
+		D1("TWS_TLServer::tickSize");
 		if ((tickerId>=0)&&(tickerId<(TickerId)stockticks.size()) && needStock(stockticks[tickerId].sym))
 		{
 			time_t now;
@@ -1169,6 +1182,7 @@ namespace TradeLibFast
 		double marketPrice, double marketValue, double averageCost,
 		double unrealizedPNL, double realizedPNL, const CString &accountName) 
 	{ 
+		D1("TWS_TLServer::updatePortfolio");
 		TLPosition pos;
 		if (contract.secType==CString("OPT"))
 		{
@@ -1225,6 +1239,7 @@ namespace TradeLibFast
 	//ILDEBEGIN
 	void TWS_TLServer::updateMktDepth( TickerId id, int position, int operation, int side, double price, int size)
 	{
+		D1("TWS_TLServer::updateMktDepth");
 		if ((id>=0)&&(id<(TickerId)stockticks.size()) && needStock(stockticks[id].sym))
 		{
 			time_t now;
@@ -1261,6 +1276,7 @@ namespace TradeLibFast
 	void TWS_TLServer::updateMktDepthL2( TickerId id, int position, CString marketMaker, int operation, 
 		int side, double price, int size) 
 	{ 
+		D1("TWS_TLServer::updateMktDepthL2");
 		if ((id>=0)&&(id<(TickerId)stockticks.size()) && needStock(stockticks[id].sym))
 		{
 			time_t now;
@@ -1298,37 +1314,131 @@ namespace TradeLibFast
 	//		double delta, double modelPrice, double pvDividend) { }
 
 	void TWS_TLServer::tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
-		double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) { }	// dimon: all these with empty {} basically ignored by TrLink?
+		double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) 
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::tickOptionComputation - NOT IMPLEMENTED IN TRADELINK!");
+	}	
 
-	void TWS_TLServer::openOrderEnd() { }
-	void TWS_TLServer::accountDownloadEnd(const IBString& accountName) { }
+	void TWS_TLServer::openOrderEnd()
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::openOrderEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}	
 
-	void TWS_TLServer::tickGeneric(TickerId tickerId, TickType tickType, double value) { }
-	void TWS_TLServer::tickString(TickerId tickerId, TickType tickType, const CString& value) { }
+	void TWS_TLServer::accountDownloadEnd(const IBString& accountName)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::accountDownloadEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}	
+
+
+	void TWS_TLServer::tickGeneric(TickerId tickerId, TickType tickType, double value) 
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::tickGeneric - NOT IMPLEMENTED IN TRADELINK!");
+	}	
+
+	void TWS_TLServer::tickString(TickerId tickerId, TickType tickType, const CString& value)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::tickString - NOT IMPLEMENTED IN TRADELINK!");
+	}	
 	void TWS_TLServer::tickEFP(TickerId tickerId, TickType tickType, double basisPoints,
 		const CString& formattedBasisPoints, double totalDividends, int holdDays,
-		const CString& futureExpiry, double dividendImpact, double dividendsToExpiry) { }
+		const CString& futureExpiry, double dividendImpact, double dividendsToExpiry)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::tickEFP - NOT IMPLEMENTED IN TRADELINK!");
+	}	
 	void TWS_TLServer::orderStatus( OrderId orderId, const CString &status, int filled, int remaining, 
 		double avgFillPrice, int permId, int parentId, double lastFillPrice,
-		int clientId, const CString& whyHeld) { }
-	void TWS_TLServer::connectionClosed() { D("TWS connection closed.");}
+		int clientId, const CString& whyHeld)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::orderStatus - NOT IMPLEMENTED IN TRADELINK!");
+	}	
 
-	void TWS_TLServer::updateAccountTime(const CString &timeStamp) { }
-	void TWS_TLServer::contractDetails( int reqId, const ContractDetails& contractDetails) {}
-	void TWS_TLServer::bondContractDetails( int reqId, const ContractDetails& contractDetails) {}
-	void TWS_TLServer::contractDetailsEnd( int reqId) {}
+	void TWS_TLServer::connectionClosed() {
+		D1("TWS_TLServer::connectionClosed");
+		D("TWS connection closed.");
+	}
+
+	void TWS_TLServer::updateAccountTime(const CString &timeStamp)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::updateAccountTime - NOT IMPLEMENTED IN TRADELINK!");
+	}	
+
+	void TWS_TLServer::contractDetails( int reqId, const ContractDetails& contractDetails)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::contractDetails - NOT IMPLEMENTED IN TRADELINK!");
+	}	
+
+	void TWS_TLServer::bondContractDetails( int reqId, const ContractDetails& contractDetails)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::bondContractDetails - NOT IMPLEMENTED IN TRADELINK!");
+	}	
+
+	void TWS_TLServer::contractDetailsEnd( int reqId)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::contractDetailsEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
 	//ILDECOMMENTvoid TWS_TLServer::updateMktDepth( TickerId id, int position, int operation, int side, 
 	//double price, int size) { }
-	void TWS_TLServer::updateNewsBulletin(int msgId, int msgType, const CString& newsMessage, const CString& originExch) { }
-	void TWS_TLServer::receiveFA(faDataType pFaDataType, const CString& cxml) { }
-	void TWS_TLServer::scannerParameters(const CString &xml) { }
+	void TWS_TLServer::updateNewsBulletin(int msgId, int msgType, const CString& newsMessage, const CString& originExch)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::updateNewsBulletin - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::receiveFA(faDataType pFaDataType, const CString& cxml)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::receiveFA - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::scannerParameters(const CString &xml)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::scannerParameters - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
 	void TWS_TLServer::scannerData(int reqId, int rank, const ContractDetails &contractDetails, const CString &distance,
-		const CString &benchmark, const CString &projection, const CString &legsStr) { }
-	void TWS_TLServer::scannerDataEnd(int reqId) { }
+		const CString &benchmark, const CString &projection, const CString &legsStr) 
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::scannerData - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::scannerDataEnd(int reqId)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::scannerDataEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
 	void TWS_TLServer::realtimeBar(TickerId reqId, long time, double open, double high, double low, double close,
-		long volume, double wap, int count) { }
-	void TWS_TLServer::currentTime(long time) {}
-	void TWS_TLServer::fundamentalData(TickerId reqId, const CString& data) {}
+		long volume, double wap, int count)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::realtimeBar - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::currentTime(long time) 
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::currentTime - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::fundamentalData(TickerId reqId, const CString& data)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::fundamentalData - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
 
 	//ILDEBEGIN: 
 	//*We are requesting market depth for each registered stock
@@ -1415,6 +1525,56 @@ namespace TradeLibFast
 		}
 		return 0;
 	}
+
+	// you'll see IB added few more virtual methods to EWrapper as well as changed parameters for some exixting ones.
+	void TWS_TLServer::deltaNeutralValidation(int reqId, const UnderComp& underComp)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::deltaNeutralValidation - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::tickSnapshotEnd( int reqId)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::tickSnapshotEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::marketDataType( TickerId reqId, int marketDataType)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::marketDataType - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::commissionReport( const CommissionReport &commissionReport)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::commissionReport - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::position( const IBString& account, const Contract& contract, int position)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::position - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::positionEnd()
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::positionEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::accountSummary( int reqId, const IBString& account, const IBString& tag, const IBString& value, const IBString& curency)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::accountSummary - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
+	void TWS_TLServer::accountSummaryEnd( int reqId)
+	{ 
+		// dimon: all these with empty {} basically ignored by TrLink?
+		D1("TWS_TLServer::accountSummaryEnd - NOT IMPLEMENTED IN TRADELINK!");
+	}
+
 
 	//This methid returns the tickerid for a given symbol or -1
 	int TWS_TLServer::findStockticksTid(CString symbol)

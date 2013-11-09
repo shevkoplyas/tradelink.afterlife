@@ -304,7 +304,7 @@ namespace TradeLibFast
 				data.Format("%i",um);
 				for (uint i = 0; i<client.size(); i++)
 				{
-					D3("response to unknown message back to client");
+					D3("WARNING! response to unknown message back to client");
 					TLSend(type,data,i);
 				}
 				// this will go away soon
@@ -347,7 +347,7 @@ namespace TradeLibFast
 
 	int TLServer_WM::HeartBeat(CString clientname)
 	{
-		if (this->TLDEBUG_LEVEL >= 3){
+		if (this->TLDEBUG_LEVEL >= 3){ // extra check of debug level since we have extra formatting work here and dont wanna slowdown production
 			CString debug_message;
 			debug_message.Format("TLServer_WM::HeartBeat: clientname='%s'", clientname);
 			D3(debug_message);
@@ -552,7 +552,7 @@ namespace TradeLibFast
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
 			{
-				D3("ORDERNOTIFY" + order.Serialize());
+				D3("TLServer_WM::SrvGotOrder: ORDERNOTIFY" + order.Serialize());
 				TLSend(ORDERNOTIFY,order.Serialize(),client[i]);
 			}
 	}
@@ -563,7 +563,7 @@ namespace TradeLibFast
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
 			{
-				D3("EXECUTENOTIFY" + trade.Serialize());
+				D3("TLServer_WM::SrvGotFill: EXECUTENOTIFY" + trade.Serialize());
 				TLSend(EXECUTENOTIFY,trade.Serialize(),client[i]);
 			}
 	}
@@ -580,7 +580,7 @@ namespace TradeLibFast
 				{
 					if (stocks[i][j]==tick.sym)
 					{
-						D3("TICKNOTIFY (a)" + tick.Serialize());
+						D3("TLServer_WM::SrvGotTick: TICKNOTIFY (a)" + tick.Serialize());
 						TLSend(TICKNOTIFY,tick.Serialize(),i);
 					}
 				}
@@ -590,7 +590,7 @@ namespace TradeLibFast
 		clientindex symclients = symclientidx[tick.symid];
 		for (uint i = 0; i<symclients.size(); i++)
 		{
-			D3("TICKNOTIFY (b)" + tick.Serialize());
+			D3("TLServer_WM::SrvGotTick: TICKNOTIFY (b)" + tick.Serialize());
 			TLSend(TICKNOTIFY,tick.Serialize(),symclients[i]);
 		}
 	}
@@ -604,7 +604,7 @@ namespace TradeLibFast
 		for (size_t i = 0; i<client.size(); i++)
 			if (client[i]!="")
 			{
-				D3("ORDERCANCELRESPONSE");
+				D3("TLServer_WM::SrvGotCancel: ORDERCANCELRESPONSE");
 				TLSend(ORDERCANCELRESPONSE,id,client[i]);
 			}
 	}
