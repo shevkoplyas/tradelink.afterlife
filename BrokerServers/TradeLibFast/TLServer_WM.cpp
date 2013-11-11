@@ -460,7 +460,7 @@ namespace TradeLibFast
 		if (this->TLDEBUG_LEVEL >= 1)
 		{
 			CString line;
-			vector<int> now(2); // will hold 2 integers: date, time
+			vector<int> now;//(2); // will hold 2 integers: date, time
 			TLTimeNow(now);
 			int tltime_counter = get_same_sec_timestamp_counter(now[TLtime]);
 			line.Format("%06i.%02i %s", now[TLtime], tltime_counter, message);

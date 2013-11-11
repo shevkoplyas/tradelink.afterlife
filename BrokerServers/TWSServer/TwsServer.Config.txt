@@ -1,7 +1,7 @@
 // first socket
 7496	
 // max number of TWS to connect to
-2	
+1	
 // clientid (0 = ALLORDERS, 1 = FROM THIS MACHINE ONLY)
 0
 // default currency

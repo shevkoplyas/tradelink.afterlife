@@ -40,10 +40,15 @@ namespace TradeLibFast
 	{
 		// cancel subscriptions
 		for (size_t i = 0; i<stockticks.size(); i++)
+		{
+			D2("~TWS_TLServer: cancelMktData");
 			this->m_link[this->validlinkids[0]]->cancelMktData((TickerId)i);
+		}
+
 		// disconnect from IB and unallocate memory
 		for (size_t i = 0; i<m_link.size(); i++)
 		{
+			D2("~TWS_TLServer: eDisconnect");
 			m_link[i]->eDisconnect();
 			delete m_link[i];
 		}
@@ -152,18 +157,42 @@ namespace TradeLibFast
 			m_link.push_back(new EClientSocket(this)); // create socket instance
 			const char* host = _T("");
 			CString msg;
-			bool good = m_link[idx]->eConnect(host,m_nextsocket,clientid); // connect
-			m_link[idx]->setServerLogLevel(5);
+
+			if (this->TLDEBUG_LEVEL >= 2)
+			{
+				CString dbg_msg;
+				dbg_msg.Format("trying to eConnect(%s, %d, clientid=%d) NOTE: for clientid==0 there will be auto open order notifications (even for orders created in TWS manually!)", host, m_nextsocket, clientid);
+				D2(dbg_msg);
+			}
+
+			bool good = m_link[idx]->eConnect(host, m_nextsocket, clientid); // connect
+
+			int setServerLogLevelValue=5;
+
+			if (this->TLDEBUG_LEVEL >= 2)
+			{
+				CString dbg_msg;
+				dbg_msg.Format("setServerLogLevel(%d)", setServerLogLevelValue);
+				D2(dbg_msg);
+			}
+
+			m_link[idx]->setServerLogLevel(setServerLogLevelValue);
 			if (clientid==0)
 			{
+				D2("reqAutoOpenOrders(true) <-- enable order notifications");
 				m_link[idx]->reqAutoOpenOrders(true); // enable order notifications
 			}
-			m_link[idx]->reqAccountUpdates(true,_T("")); // get account names for this link
+
+
+			D2("reqAccountUpdates(true,\"\") <-- get account names for this link (note - 2nd param is empty, which supposed to be an account code");
+			m_link[idx]->reqAccountUpdates(true, _T("")); // get account names for this link
+
+			D2("TwsConnectionTime() - this call is here to test if we're connected to TWS");
 			CString time = m_link[idx]->TwsConnectionTime();
 			msg.Format(" port: %i",m_nextsocket);
 			if (time.GetLength()>0)
 			{
-				D(CString("Found instance at")+msg);
+				D(CString("Found instance at")+msg + " connection_time: "+time);
 				this->validlinkids.push_back(idx);
 			}
 			else D(CString("Nothing found at")+msg);
@@ -287,6 +316,7 @@ namespace TradeLibFast
 				D(m);
 
 				// request data
+				D2("reqHistoricalData");
 				this->m_link[this->validlinkids[0]]->reqHistoricalData((TickerId)histBarSymbols.size()-1,contract,edt,dur,bs,histBarWhatToShow,histBarRTH,2);
 
 			}
@@ -555,7 +585,7 @@ namespace TradeLibFast
 	void TWS_TLServer::updateAccountValue( const CString &key, const CString &val,
 		const CString &currency, const CString &accountName) 
 	{
-		D1("TWS_TLServer::updateAccountValue");
+		D1("TWS_TLServer::updateAccountValue key: " + key + ", val: " + val);
 		// make sure we don't have this account already
 		if (!hasAccount(accountName))
 		{
@@ -766,13 +796,18 @@ namespace TradeLibFast
 			// this should only happen if cancelling order that is not yet acknowledged
 
 			// use first valid mlink
+			D2("cancelOrder (a.)");
 			m_link[this->validlinkids[0]]->cancelOrder(ibid);
 		}
 		else
 		{
 			// get client by order account name
 			EClient* client = GetOrderSink(account);
-			if (client) client->cancelOrder(ibid);
+			if (client)
+			{
+				D2("cancelOrder (a.)");
+				client->cancelOrder(ibid);
+			}
 		}
 		return OK;
 	}
@@ -784,7 +819,7 @@ namespace TradeLibFast
 	}
 	void TWS_TLServer::error(const int id, const int errorCode, const CString errorString)
 	{
-		D1("TWS_TLServer::error: for some reason IB sends order cancels as an error rather than as an order update message");
+		D1("TWS_TLServer::error: '" + errorString + "'");
 		// for some reason IB sends order cancels as an error rather than
 		// as an order update message
 		int64 tlid = IB2TLID(id);
@@ -1050,7 +1085,7 @@ namespace TradeLibFast
 			j.Format("adding this: %s %s %s %s %s",contract.symbol,contract.localSymbol,contract.secType,contract.exchange,extra);
 			D(j);//CString("attempting to add symbol ")+CString(sec.sym));
 
-
+			D2("reqMktData");
 			this->m_link[this->validlinkids[0]]->reqMktData((TickerId)stockticks.size(),contract,"",false);
 			TLTick k; // create blank tick
 			k.sym = stocks[cid][i]; // store long symbol
@@ -1367,7 +1402,7 @@ namespace TradeLibFast
 	void TWS_TLServer::updateAccountTime(const CString &timeStamp)
 	{ 
 		// dimon: all these with empty {} basically ignored by TrLink?
-		D1("TWS_TLServer::updateAccountTime - NOT IMPLEMENTED IN TRADELINK!");
+		D1("TWS_TLServer::updateAccountTime - NOT IMPLEMENTED IN TRADELINK! (timeStamp="+timeStamp+")");
 	}	
 
 	void TWS_TLServer::contractDetails( int reqId, const ContractDetails& contractDetails)
@@ -1518,6 +1553,7 @@ namespace TradeLibFast
 				if(tid == -1)
 					return SYMBOL_NOT_LOADED;
 
+				D2("reqMktDepth");
 				this->m_link[this->validlinkids[0]]->reqMktDepth(tid,contract,depth);
 
 				v(CString("Added IB market depth subscription for ")+CString(sec.sym));
