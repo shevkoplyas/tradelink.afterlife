@@ -35,6 +35,9 @@ CTWSServerApp theApp;
 
 BOOL CTWSServerApp::InitInstance()
 {
+//TODO: call AfxInitRichEdit2() to initialize richedit2 library.
+	AfxInitRichEdit2(); // dimon
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.

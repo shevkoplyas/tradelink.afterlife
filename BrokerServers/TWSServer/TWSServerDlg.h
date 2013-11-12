@@ -4,6 +4,7 @@
 #pragma once
 #include "afxwin.h"
 #include "TWS_TLServer.h"
+#include "afxcmn.h"
 
 
 // CTWSServerDlg dialog
@@ -36,11 +37,11 @@ protected:
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); // dimon: todo: why this never fires up?
 	DECLARE_MESSAGE_MAP()
 
-	CEdit m_status;
-	CEdit m_status1;
-	CEdit m_status2;
-	CEdit m_status3;
-	CEdit m_status4;
+	CRichEditCtrl m_status;
+	CRichEditCtrl m_status1;
+	CRichEditCtrl m_status2;
+	CRichEditCtrl m_status3;
+	CRichEditCtrl m_status4;
 	bool sync_all_statuses_scrolling;
 
 	TradeLibFast::TWS_TLServer* tl;
@@ -80,4 +81,5 @@ public:
 	CButton m_autoscroll;
 
 	BOOL CTWSServerDlg::PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnEnVscrollStatus3();
 };

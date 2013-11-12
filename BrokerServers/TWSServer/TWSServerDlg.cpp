@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CTWSServerDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN1, &CTWSServerDlg::OnDeltaposSpin1)
 	ON_EN_VSCROLL(IDC_STATUS, &CTWSServerDlg::OnEnVscrollStatus)
+	ON_EN_VSCROLL(IDC_STATUS3, &CTWSServerDlg::OnEnVscrollStatus3)
 END_MESSAGE_MAP()
 
 
@@ -117,6 +118,8 @@ BOOL CTWSServerDlg::OnInitDialog()
 	m_status2.SetFont(&myMonospaceFont);
 	m_status3.SetFont(&myMonospaceFont);
 	m_status4.SetFont(&myMonospaceFont);
+
+	m_status.SetEventMask(m_status.GetEventMask() | ENM_SCROLL | ENM_SCROLLEVENTS ); // dimon: to get notificaitions from RichEdit we have to SetEventMask() // http://msgroups.net/microsoft.public.vc.mfc/cricheditctrl-and-dynamic-scroll-bar/564427
 
 	status("Starting tradelink.afterlife broker server...");
 	tl = new TWS_TLServer();
@@ -194,30 +197,6 @@ HCURSOR CTWSServerDlg::OnQueryDragIcon()
 }
 
 
-//
-//
-// Q: Which is the best method to append text to an edit control?
-//
-// A: One method is to call 'GetWindowText()' to get the initial text, append the new text to it, then put it back with 'SetWindowText()'.
-// This works, but is not practical, especially if the text lenght is huge and the appending is made very frequently. 
-//
-// A better solution is to put the edit selection at the end of the initial text, then simply replace the selection with the text to append:
-//
-// Code:
-// void CFoo::AppendTextToEditCtrl(CEdit& edit, LPCTSTR pszText)
-// {
-//   // get the initial text length
-//   int nLength = edit.GetWindowTextLength();
-//   // put the selection at the end of text
-//   edit.SetSel(nLength, nLength);
-//   // replace the selection
-//   edit.ReplaceSel(pszText);
-// }
-//
-
-
-
-
 void CTWSServerDlg::status(LPCTSTR m, int tltime, int tltime_counter)
 {
 	// if called directly from TWSServer (not from TLServer_WM), then timestamp is missing. Get time:
@@ -251,7 +230,8 @@ void CTWSServerDlg::status(LPCTSTR m, int tltime, int tltime_counter)
 	// get the initial text length
 	int nLength = m_status.GetWindowTextLengthA();
 	// put the selection at the end of text
-	m_status.SetSel(nLength, nLength, 1);
+	m_status.SetSel(nLength, nLength);
+
 	// replace the selection
 	m_status.ReplaceSel(msg);
 
@@ -300,7 +280,7 @@ void CTWSServerDlg::status1(LPCTSTR m, int tltime, int tltime_counter)
 	// get the initial text length
 	int nLength = m_status1.GetWindowTextLengthA();
 	// put the selection at the end of text
-	m_status1.SetSel(nLength, nLength, 1);
+	m_status1.SetSel(nLength, nLength);
 	// replace the selection
 	m_status1.ReplaceSel(msg);
 
@@ -349,7 +329,7 @@ void CTWSServerDlg::status2(LPCTSTR m, int tltime, int tltime_counter)
 	// get the initial text length
 	int nLength = m_status2.GetWindowTextLengthA();
 	// put the selection at the end of text
-	m_status2.SetSel(nLength, nLength, 1);
+	m_status2.SetSel(nLength, nLength);
 	// replace the selection
 	m_status2.ReplaceSel(msg);
 
@@ -387,7 +367,7 @@ void CTWSServerDlg::status3(LPCTSTR m, int tltime, int tltime_counter)
 		//	const CString NEWLINE = "\r\n";
 		msg.Append(NEWLINE);
 	}
-	
+
 	//CString stat;
 	//m_status3.GetWindowTextA(stat);
 	//stat.Append(msg);
@@ -397,12 +377,12 @@ void CTWSServerDlg::status3(LPCTSTR m, int tltime, int tltime_counter)
 	// get the initial text length
 	int nLength = m_status3.GetWindowTextLengthA();
 	// put the selection at the end of text
-	m_status3.SetSel(nLength, nLength, 1);
+	m_status3.SetSel(nLength, nLength);
 	// replace the selection
 	m_status3.ReplaceSel(msg);
 
 	m_status3_lines_count++;
-	
+
 	if (m_autoscroll.GetCheck()) m_status3.LineScroll(m_status3_lines_count);
 
 	if (sync_all_statuses_scrolling && m != NEWLINE)
@@ -435,22 +415,22 @@ void CTWSServerDlg::status4(LPCTSTR m, int tltime, int tltime_counter)
 		//	const CString NEWLINE = "\r\n";
 		msg.Append(NEWLINE);
 	}
-	
+
 	//CString stat;
 	//m_status4.GetWindowTextA(stat);
 	//stat.Append(msg);
 	//m_status4.SetWindowTextA(stat);
-	
+
 	// good method of adding text to cedit (dimon:)
 	// get the initial text length
 	int nLength = m_status4.GetWindowTextLengthA();
 	// put the selection at the end of text
-	m_status4.SetSel(nLength, nLength, 1);
+	m_status4.SetSel(nLength, nLength);
 	// replace the selection
 	m_status4.ReplaceSel(msg);
 
 	m_status4_lines_count++;
-	
+
 	if (m_autoscroll.GetCheck()) m_status4.LineScroll(m_status4_lines_count);
 
 	if (sync_all_statuses_scrolling && m != NEWLINE)
@@ -492,22 +472,30 @@ void CTWSServerDlg::set_debuglevel(int debug_level)
 
 void CTWSServerDlg::OnEnVscrollStatus()
 {
+	int lineNumber = m_status.GetFirstVisibleLine();
+
 	int nPos = m_status.GetScrollPos(SB_VERT);
 
-	int delta1 = nPos - m_status1.GetScrollPos(SB_VERT);
-	int delta2 = nPos - m_status2.GetScrollPos(SB_VERT);
-	int delta3 = nPos - m_status3.GetScrollPos(SB_VERT);
-	int delta4 = nPos - m_status4.GetScrollPos(SB_VERT);
+	//int delta1 = nPos - m_status1.GetScrollPos(SB_VERT);
+	//int delta2 = nPos - m_status2.GetScrollPos(SB_VERT);
+	//int delta3 = nPos - m_status3.GetScrollPos(SB_VERT);
+	//int delta4 = nPos - m_status4.GetScrollPos(SB_VERT);
+
+	int delta1 = lineNumber - m_status1.GetFirstVisibleLine();
+	int delta2 = lineNumber - m_status2.GetFirstVisibleLine();
+	int delta3 = lineNumber - m_status3.GetFirstVisibleLine();
+	int delta4 = lineNumber - m_status4.GetFirstVisibleLine();
 
 	m_status1.LineScroll(delta1); // adjust scrollbar for all edit boxes
 	m_status2.LineScroll(delta2);
 	m_status3.LineScroll(delta3);
 	m_status4.LineScroll(delta4);
 
-	m_status1.SetScrollPos(SB_VERT, nPos, 1); // adjust text position for all edit boxes
-	m_status2.SetScrollPos(SB_VERT, nPos, 1);
-	m_status3.SetScrollPos(SB_VERT, nPos, 1);
-	m_status4.SetScrollPos(SB_VERT, nPos, 1);
+	//m_status1.SetScrollPos(SB_VERT, nPos, 1); // adjust text position for all edit boxes
+	//m_status2.SetScrollPos(SB_VERT, nPos, 1);
+	//m_status3.SetScrollPos(SB_VERT, nPos, 1);
+	//m_status4.SetScrollPos(SB_VERT, nPos, 1);
+
 }
 void CTWSServerDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
@@ -524,6 +512,16 @@ BOOL CTWSServerDlg::PreTranslateMessage(MSG* pMsg)
 			return TRUE;                // Do not process further. This sill supress connector close on ESC button!
 		}
 	}
+	else if (pMsg->message == WM_COMMAND )
+	{
+		m_static2.SetWindowTextA("asdf");
+	}
 
 	return CWnd::PreTranslateMessage(pMsg);
+}
+
+
+void CTWSServerDlg::OnEnVscrollStatus3()
+{
+	// TODO: Add your control notification handler code here
 }

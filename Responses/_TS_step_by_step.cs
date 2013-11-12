@@ -369,7 +369,7 @@ namespace Responses
             track_barlists.newTick(tick); // dimon: give any ticks (trades) to this symbol and tracker will create barlists automatically
 
             // check if need to exit position:
-            if (!track_positions[tick.symbol].isFlat)
+            if (!track_positions[tick.symbol].isLong) // isFlat)        - we sell only if we have long positions
             {
                 bool should_exit = false;
 
