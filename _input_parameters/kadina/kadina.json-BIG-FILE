@@ -1,0 +1,12 @@
+{
+	"tick_files" : [
+		"C:\\dima\\tradelink\\data.saved-ticks\\STX20070709.TIK"
+	],
+	"response_dll" : "C:\\dima\\tradelink\\src\\Responses\\bin\\Debug\\Responses.dll",
+	"response_class" : "Responses.AlwaysEnter",
+
+	"kadina_barsize_s" : "12",
+	"repsonse_barsize_s" : "10",
+
+	"play_to" : "four_hours"
+}

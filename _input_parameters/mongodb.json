@@ -1,0 +1,5 @@
+{
+"mongodb_connection_string": "mongodb://localhost",
+"mongodb_database_name" : "tradelink.afterlife",
+"mongodb_collection_name": "storage"
+}

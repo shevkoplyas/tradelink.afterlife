@@ -1,0 +1,5 @@
+{
+"queue_name": "storage_service_queue",
+"routing_key": "responses.#",
+"routing_key_older": "response.#"
+}

@@ -1,0 +1,19 @@
+{
+"readme":"This file is an example of expandable document. It can be used for optimization where you'd run same backtest with different input values and then would observe all the results.",
+
+"name" : "_SMA_Crossing_Response",
+"response_barsize_s" : "3",
+"_slow_ma_bar" : 
+	{
+	"start" : 12, 
+	"stop" : 17,
+	"step" : 2.3,
+	"step_operation" : "+",
+	"type" : "double"
+	},
+"_fast_ma_bar" : 
+	{
+	"start" : 5, 
+	"stop" : 7,
+	},
+}

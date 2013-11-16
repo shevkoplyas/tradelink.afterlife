@@ -1,0 +1,7 @@
+{
+"readme":"The fields below are inputs for one particular response. Please read _SMA_Crossing_Response.cs to see how these values are extracted. Fill free to add more if needed.",
+"name" : "_SMA_Crossing_Response",
+"response_barsize_s" : "3",
+"_slow_ma_bar" : "12",
+"_fast_ma_bar" : "3"
+}

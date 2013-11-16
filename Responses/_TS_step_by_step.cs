@@ -71,11 +71,7 @@ namespace Responses
     //public class _TS_step_by_step : ResponseTemplate      // class name starts with "_" just to make it easy to find in a list of responses...
     {
 
-
-
-
-
-        System.IO.StreamWriter test_file = new System.IO.StreamWriter("C:\\dima\\tradelink\\_ts_step_by_step.test_file.txt");
+        System.IO.StreamWriter log_file = new System.IO.StreamWriter("C:\\tradelink.afterlife\\_logs\\Responses\\_ts_step_by_step.log");
 
         // dimon: external json files support:
         MongoDB.Bson.BsonDocument bson = null;
@@ -221,7 +217,8 @@ namespace Responses
             bson_doc["Interval"] = bl.RecentBar.Interval;
             bson_doc["time"] = bl.RecentBar.time;
 
-            send_event(MimeType.got_new_bar, "bar", bson_doc.ToString());
+            //send_event(MimeType.got_new_bar, "bar", bson_doc.ToString());
+            log_file.WriteLine("got_new_bar"+ bson_doc.ToString());
 
             // get index for symbol
             int idx = track_symbols.getindex(symbol);
@@ -268,15 +265,20 @@ namespace Responses
                     if (should_buy)
                     {
                         // come buy some! (c) Duke Nukem
-                        sendorder(new BuyMarket(symbol, EntrySize));
-                        dbg_msg += " BuyMarket(" + symbol + ", " + EntrySize.ToString() + ")";
+                        string comment = " BuyMarket(" + symbol + ", " + EntrySize.ToString() + ")";
+                        sendorder(new BuyMarket(symbol, EntrySize, comment));
+                        log_file.WriteLine("close position: " + comment);
+                        dbg_msg += comment;
                     }
 
-                    if (!track_positions[symbol].isFlat && should_sell) // we don't short, so also check if !flat
-                    //if ( should_sell) // we don't short, so also check if !flat
+                    if (false) // we do all the selling on tick()
                     {
-                        sendorder(new SellMarket(symbol, EntrySize));
-                        dbg_msg += " SellMarket(" + symbol + ", " + EntrySize.ToString() + ")";
+                        if (!track_positions[symbol].isFlat && should_sell) // we don't short, so also check if !flat
+                        //if ( should_sell) // we don't short, so also check if !flat
+                        {
+                            sendorder(new SellMarket(symbol, EntrySize));
+                            dbg_msg += " SellMarket(" + symbol + ", " + EntrySize.ToString() + ")";
+                        }
                     }
                 }
             }
@@ -331,7 +333,7 @@ namespace Responses
             if (tick.time < 93000) return;
 
             // --------------------------------------------------- rabbitmq begin -----------
-            test_file.WriteLine(JsonConvert.SerializeObject(tick, Formatting.Indented));    // write all ticks into external file (to get a feeling on size)
+            log_file.WriteLine(JsonConvert.SerializeObject(tick, Formatting.Indented));    // write all ticks into external file (to get a feeling on size)
             if (tick.time == 93205)
             {
                 ;
@@ -369,34 +371,65 @@ namespace Responses
             track_barlists.newTick(tick); // dimon: give any ticks (trades) to this symbol and tracker will create barlists automatically
 
             // check if need to exit position:
+            log_file.WriteLine("check if need to exit position: track_positions[tick.symbol].isLong=" + track_positions[tick.symbol].isLong.ToString());
+
             if (!track_positions[tick.symbol].isLong) // isFlat)        - we sell only if we have long positions
             {
-                bool should_exit = false;
 
-                // should exit position due to "target reached" ?
+                // should exit long position due to hit target?
                 if (track_positions[tick.symbol].isLong)
+                {
                     // time to exit long position?
-                    should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_target_price_k <= tick.trade;
-                else
-                    // time to exit short position?
-                    should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_target_price_k >= tick.trade;
-
-                // also check if should exit due to "hit stop limit" (only if not already should_exit=true)
-                if (!should_exit)
-                {
-                    if (track_positions[tick.symbol].isLong)
-                        // time to exit long position?
-                        should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_stop_k >= tick.trade;
-                    else
-                        // time to exit short position?
-                        should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_stop_k <= tick.trade;
+                    bool should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_target_price_k <= tick.trade;
+                    if (should_exit)
+                    {
+                        string comment = "exit long position due to hit target";
+                        sendorder(new SellMarket(tick.symbol, EntrySize, comment));
+                        log_file.WriteLine("close position: " + comment);
+                        return;
+                    }
                 }
 
-                if (should_exit)
+                // should exit short position due to hit target?
+                if (track_positions[tick.symbol].isShort)
                 {
-                    // how do we properly flatten short positions?
-                    sendorder(new SellMarket(tick.symbol, EntrySize));
+                    bool should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_target_price_k >= tick.trade;
+                    if (should_exit)
+                    {
+                        string comment = "exit short position due to hit target";
+                        sendorder(new BuyMarket(tick.symbol, EntrySize, comment));
+                        log_file.WriteLine("close position: " + comment);
+                        return;
+                    }
                 }
+
+                // should exit long position due to hit stop?
+                if (track_positions[tick.symbol].isLong)
+                {
+                    bool should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_stop_k >= tick.trade;
+                    if (should_exit)
+                    {
+                        string comment = "exit long position due to hit stop";
+                        sendorder(new SellMarket(tick.symbol, EntrySize, comment));
+                        log_file.WriteLine("close position: " + comment);
+                        return;
+                    }
+                }
+
+                // should exit short position due to hit stop?
+                if (track_positions[tick.symbol].isShort)
+                {
+                    bool should_exit = track_positions[tick.symbol].AvgPrice * (decimal)_target_price_k >= tick.trade;
+                    if (should_exit)
+                    {
+                        string comment = "exit short position due to hit stop";
+                        sendorder(new BuyMarket(tick.symbol, EntrySize, comment));
+                        log_file.WriteLine("close position: " + comment);
+                        return;
+                    }
+                }
+
+
             }
         }
 

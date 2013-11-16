@@ -1,0 +1,13 @@
+{
+	"tick_files" : [
+		"C:\\tradelink.afterlife\\TikData\\WAG20070926.TIK"
+	],
+	"response_dll" : "C:\\tradelink.afterlife\\Responses\\bin\\Debug\\Responses.dll",
+	"response_class" : "Responses._TS_step_by_step",
+
+	"chart_barsize_s" : 10,
+	"chart_candle_checkbox" : "checked",
+	"chart_y_axix_scale_to_visible_prices_checkbox" : "checked",
+
+	"play_to" : "end"
+}

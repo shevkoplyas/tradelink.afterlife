@@ -1,0 +1,11 @@
+{
+	"tick_files" : [
+		"C:\\dima\\tradelink\\src\\TikData\\CE20070926.TIK",
+		"C:\\dima\\tradelink\\src\\TikData\\FRX20070926.TIK",
+		"C:\\dima\\tradelink\\src\\TikData\\FTI20070926.TIK",
+		"C:\\dima\\tradelink\\src\\TikData\\WAG20070926.TIK"
+	],
+	"response_dll" : "C:\\dima\\tradelink\\src\\Responses\\bin\\Debug\\Responses.dll",
+	"response_class" : "Responses.AlwaysEnter",
+	"play_to" : "end"
+}

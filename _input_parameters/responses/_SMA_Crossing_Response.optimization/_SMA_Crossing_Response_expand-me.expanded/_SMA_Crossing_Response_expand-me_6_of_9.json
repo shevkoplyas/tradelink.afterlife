@@ -1,0 +1,6 @@
+{
+  "name": "_SMA_Crossing_Response",
+  "response_barsize_s": "3",
+  "_slow_ma_bar": "14.3",
+  "_fast_ma_bar": "7"
+}

@@ -723,11 +723,17 @@ namespace TradeLibFast
 
 			if (LOGENABLED)
 			{
-				// get log path
-				TCHAR path[MAX_PATH];
-				SHGetFolderPath(NULL,CSIDL_LOCAL_APPDATA,NULL,0,path);
-				CString augpath;
-				augpath.Format("%s\\%s",path,PROGRAM);
+				//// get log path
+				//TCHAR path[MAX_PATH];
+				//SHGetFolderPath(NULL,CSIDL_LOCAL_APPDATA,NULL,0,path);
+				//CString augpath;
+				//augpath.Format("%s\\%s",path,PROGRAM);
+
+				
+				// dimon: probably LOCAL_APPDATA is the way to go, but it can be diff. places on diff. systems,
+				// for simplicity sake this is disabled for now and all the output collected in one fixed hardcoded place.
+				CString augpath = "C:\\tradelink.afterlife\\_logs\\TWSServer";
+				
 				// see if folder exists
 				if (!checkFileExists(augpath.GetBuffer()))
 					CreateDirectory(augpath,NULL);
@@ -756,7 +762,7 @@ namespace TradeLibFast
 			msg.Format("IB API Version:");
 			this->D(msg);
 
-			msg.Format("        API 9.69"); // todo: each time you manually upgrade TLServer to use newer api version, don't forget to replace it here..
+			msg.Format("        API 9.69"); // dimon: todo: each time you manually upgrade TLServer to use newer api version, don't forget to replace it here..
 			this->D(msg);
 
 			msg.Format("        Release Date: July 1 2012");

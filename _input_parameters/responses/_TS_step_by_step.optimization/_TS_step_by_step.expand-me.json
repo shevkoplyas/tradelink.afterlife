@@ -1,0 +1,17 @@
+{
+"name" : "_SMA_Crossing_Response",
+"response_barsize_s" : "3",
+"_slow_ma_bar" : 
+	{
+	"start" : 12, 
+	"stop" : 17,
+	"step" : 2,
+	"step_operation" : "+",
+	"type" : "double"
+	},
+"_fast_ma_bar" : 
+	{
+	"start" : 5, 
+	"stop" : 7,
+	},
+}

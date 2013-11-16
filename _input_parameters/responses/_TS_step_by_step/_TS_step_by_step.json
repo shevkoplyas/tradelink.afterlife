@@ -1,0 +1,8 @@
+{
+"name" : "_TS_step_by_step",
+"_response_barsize_s" : "10",
+"_ema_bar" : "3",
+"_stop_k" : "0.998",
+"_target_price_k" : "1.002",
+"arr":[3,4,5]
+}

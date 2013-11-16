@@ -1,0 +1,15 @@
+{
+	"tick_files" : [
+		"C:\\dima\\tradelink\\src\\TikData\\WAG20070926.TIK"
+	],
+	"response_dll" : "C:\\dima\\tradelink\\src\\Responses\\bin\\Debug\\Responses.dll",
+	"response_class" : "Responses._SMA_Crossing_Response",
+
+	"chart_barsize_s" : 12,
+	"chart_candle_checkbox" : "checked",
+	"chart_y_axix_scale_to_visible_prices_checkbox" : "checked",
+
+	"repsonse_barsize_s" : 10,
+
+	"play_to" : "end"
+}

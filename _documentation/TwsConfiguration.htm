@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<!-- Start Wayback Rewrite JS Include -->
+<script src="./TwsConfiguration_files/cb=gapi.loaded_0" async=""></script><script type="text/javascript" async="" src="./TwsConfiguration_files/plusone.js"></script><script type="text/javascript" src="./TwsConfiguration_files/jwplayer.js"></script><style type="text/css"></style>
+<script type="text/javascript" src="./TwsConfiguration_files/video-embed-rewriter.js"></script>
+<script type="text/javascript">
+function initYTVideo(id)
+{
+	_wmVideos_.init("/web/", id);
+}
+</script>
+<!-- End Wayback Rewrite JS Include -->
+
+ 
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://web.archive.org/web/20120621063939/http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="./TwsConfiguration_files/TwsConfiguration.htm">
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = null;
+ 
+ 
+ var CS_env = {"profileUrl":null,"token":null,"assetHostPath":"/web/20120621063939/http://www.gstatic.com/codesite/ph","domainName":null,"assetVersionPath":"/web/20120621063939/http://www.gstatic.com/codesite/ph/1921157816818850314","projectHomeUrl":"/p/tradelink","relativeBaseUrl":"","projectName":"tradelink","loggedInUserEmail":null};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ _gaq.push(
+ ['projectTracker._setAccount', 'UA-5287449-3'],
+ ['projectTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? '/web/20120621063939/https://ssl' : '/web/20120621063939/http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script><script type="text/javascript" async="" src="./TwsConfiguration_files/ga.js"></script>
+ 
+ 
+ <title>TwsConfiguration - 
+ tradelink -
+ 
+ Setting up Interactive Brokers TWS for use with TradeLink - 
+ 100% open source since 2008... 21,000+ installs across 10+ countries. - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="./TwsConfiguration_files/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="./TwsConfiguration_files/ph_detail.css">
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="http://web.archive.org/web/20120621063939/http://code.google.com/feeds/p/tradelink/svnchanges/basic?path=/wiki/TwsConfiguration.wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="/web/20120621063939/http://www.gstatic.com/codesite/ph/1921157816818850314/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(/web/20120621063939cs_/http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(/web/20120621063939cs_/http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(/web/20120621063939cs_/http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6"><div id="wm-ipp" style="display: block; position: relative; padding: 0px 5px; min-height: 70px; min-width: 800px; z-index: 9000;">
+<div id="wm-ipp-inside" style="position:fixed;padding:0!important;margin:0!important;width:97%;min-width:780px;border:5px solid #000;border-top:none;background-image:url(/static/images/toolbar/wm_tb_bk_trns.png);text-align:center;-moz-box-shadow:1px 1px 3px #333;-webkit-box-shadow:1px 1px 3px #333;box-shadow:1px 1px 3px #333;font-size:11px!important;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif!important;">
+   <table style="border-collapse:collapse;margin:0;padding:0;width:100%;"><tbody><tr>
+   <td style="padding:10px;vertical-align:top;min-width:110px;">
+   <a href="http://web.archive.org/web/" title="Wayback Machine home page" style="background-color:transparent;border:none;"><img src="./TwsConfiguration_files/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0"></a>
+   </td>
+   <td style="padding:0!important;text-align:center;vertical-align:top;width:100%;">
+
+       <table style="border-collapse:collapse;margin:0 auto;padding:0;width:570px;"><tbody><tr>
+       <td style="padding:3px 0;" colspan="2">
+       <form target="_top" method="get" action="http://web.archive.org/web/form-submit.jsp" name="wmtb" id="wmtb" style="margin:0!important;padding:0!important;"><input type="text" name="url" id="wmtbURL" value="http://code.google.com/p/tradelink/wiki/TwsConfiguration" style="width:400px;font-size:11px;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;" onfocus="javascript:this.focus();this.select();"><input type="hidden" name="type" value="replay"><input type="hidden" name="date" value="20120621063939"><input type="submit" value="Go" style="font-size:11px;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;margin-left:5px;"><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td style="vertical-align:bottom;padding:5px 0 0 0!important;" rowspan="2">
+           <table style="border-collapse:collapse;width:110px;color:#99a;font-family:&#39;Helvetica&#39;,&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;"><tbody>
+			
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr style="width:110px;height:16px;font-size:10px!important;">
+           	<td style="padding-right:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://web.archive.org/web/20120518014000/http://code.google.com/p/tradelink/wiki/TwsConfiguration" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="18 May 2012"><strong>MAY</strong></a>
+		                
+               </td>
+               <td id="displayMonthEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight:bold;text-transform:uppercase;width:34px;height:15px;padding-top:1px;text-align:center;" title="You are here: 6:39:39 Jun 21, 2012">JUN</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://web.archive.org/web/20120808030443/http://code.google.com/p/tradelink/wiki/TwsConfiguration" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="8 Aug 2012"><strong>AUG</strong></a>
+		                
+               </td>
+           </tr>
+
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr>
+               <td style="padding-right:9px;white-space:nowrap;overflow:visible;text-align:right!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="http://web.archive.org/web/20120518014000/http://code.google.com/p/tradelink/wiki/TwsConfiguration" title="1:40:00 May 18, 2012" style="background-color:transparent;border:none;"><img src="./TwsConfiguration_files/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0"></a>
+		                
+               </td>
+               <td id="displayDayEl" style="background:#000;color:#ff0;width:34px;height:24px;padding:2px 0 0 0;text-align:center;font-size:24px;font-weight: bold;" title="You are here: 6:39:39 Jun 21, 2012">21</td>
+				<td style="padding-left:9px;white-space:nowrap;overflow:visible;text-align:left!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="http://web.archive.org/web/20120808030443/http://code.google.com/p/tradelink/wiki/TwsConfiguration" title="3:04:43 Aug 8, 2012" style="background-color:transparent;border:none;"><img src="./TwsConfiguration_files/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0"></a>
+		                
+			    </td>
+           </tr>
+
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr style="width:110px;height:13px;font-size:9px!important;">
+				<td style="padding-right:9px;font-size:11px!important;font-weight: bold;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://web.archive.org/web/20100419175350/http://code.google.com/p/tradelink/wiki/TwsConfiguration" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="19 Apr 2010"><strong>2010</strong></a>
+		                
+               </td>
+               <td id="displayYearEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight: bold;padding-top:1px;width:34px;height:13px;text-align:center;" title="You are here: 6:39:39 Jun 21, 2012">2012</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight: bold;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+                       2013
+                       
+				</td>
+           </tr>
+           </tbody></table>
+       </td>
+
+       </tr>
+       <tr>
+       <td style="vertical-align:middle;padding:0!important;">
+           <a href="http://web.archive.org/web/20120621063939*/http://code.google.com/p/tradelink/wiki/TwsConfiguration" style="color:#33f;font-size:11px;font-weight:bold;background-color:transparent;border:none;" title="See a list of every capture for this URL"><strong>9 captures</strong></a>
+           <div style="margin:0!important;padding:0!important;color:#666;font-size:9px;padding-top:2px!important;white-space:nowrap;" title="Timespan for captures of this URL">19 Apr 10 - 9 Sep 12</div>
+       </td>
+       <td style="padding:0!important;">
+       <a style="position:relative; white-space:nowrap; width:450px;height:27px;" href="" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" style="position:relative; white-space:nowrap; width:450px;height:27px;background-color:#fff;cursor:pointer;border-right:1px solid #ccc;" title="Explore captures for this URL">
+			<img id="sparklineImgId" style="position:absolute; z-index:9012; top:0px; left:0px;" onmouseover="showTrackers(&#39;inline&#39;);" onmouseout="showTrackers(&#39;none&#39;);" onmousemove="trackMouseMove(event,this)" alt="sparklines" width="450" height="27" border="0" src="./TwsConfiguration_files/graph.jsp">
+			<img id="wbMouseTrackYearImg" style="display:none; position:absolute; z-index:9010;" width="25" height="27" border="0" src="./TwsConfiguration_files/transp-yellow-pixel.png">
+			<img id="wbMouseTrackMonthImg" style="display:none; position:absolute; z-index:9011; " width="2" height="27" border="0" src="./TwsConfiguration_files/transp-red-pixel.png">
+       </div>
+		</a>
+
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td style="text-align:right;padding:5px;width:65px;font-size:11px!important;">
+       <a href="javascript:;" onclick="document.getElementById(&#39;wm-ipp&#39;).style.display=&#39;none&#39;;" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_close.png) no-repeat 100% 0;color:#33f;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;margin-bottom:23px;background-color:transparent;border:none;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_help.png) no-repeat 100% 0;color:#33f;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;background-color:transparent;border:none;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+
+</div>
+</div>
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+
+<script type="text/javascript" src="./TwsConfiguration_files/disclaim-element.js"></script>
+<script type="text/javascript" src="./TwsConfiguration_files/graph-calc.js"></script>
+<script type="text/javascript" src="./TwsConfiguration_files/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var firstDate = 820454400000;
+var lastDate = 1388534399999;
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http:\/\/code.google.com\/p\/tradelink\/wiki\/TwsConfiguration";
+
+var curYear = -1;
+var curMonth = -1;
+var yearCount = 18;
+var firstYear = 1996;
+var imgWidth = 450;
+var yearImgWidth = 25;
+var monthImgWidth = 2;
+var trackerVal = "none";
+var displayDay = "21";
+var displayMonth = "Jun";
+var displayYear = "2012";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function showTrackers(val) {
+	if(val == trackerVal) {
+		return;
+	}
+	if(val == "inline") {
+		document.getElementById("displayYearEl").style.color = "#ec008c";
+		document.getElementById("displayMonthEl").style.color = "#ec008c";
+		document.getElementById("displayDayEl").style.color = "#ec008c";		
+	} else {
+		document.getElementById("displayYearEl").innerHTML = displayYear;
+		document.getElementById("displayYearEl").style.color = "#ff0";
+		document.getElementById("displayMonthEl").innerHTML = displayMonth;
+		document.getElementById("displayMonthEl").style.color = "#ff0";
+		document.getElementById("displayDayEl").innerHTML = displayDay;
+		document.getElementById("displayDayEl").style.color = "#ff0";
+	}
+   document.getElementById("wbMouseTrackYearImg").style.display = val;
+   document.getElementById("wbMouseTrackMonthImg").style.display = val;
+   trackerVal = val;
+}
+function getElementX2(obj) {
+	var thing = jQuery(obj);
+	if((thing == undefined) 
+			|| (typeof thing == "undefined") 
+			|| (typeof thing.offset == "undefined")) {
+		return getElementX(obj);
+	}
+	return Math.round(thing.offset().left);
+}
+function trackMouseMove(event,element) {
+
+   var eventX = getEventX(event);
+   var elementX = getElementX2(element);
+   var xOff = eventX - elementX;
+	if(xOff < 0) {
+		xOff = 0;
+	} else if(xOff > imgWidth) {
+		xOff = imgWidth;
+	}
+   var monthOff = xOff % yearImgWidth;
+
+   var year = Math.floor(xOff / yearImgWidth);
+	var yearStart = year * yearImgWidth;
+   var monthOfYear = Math.floor(monthOff / monthImgWidth);
+   if(monthOfYear > 11) {
+       monthOfYear = 11;
+   }
+   // 1 extra border pixel at the left edge of the year:
+   var month = (year * 12) + monthOfYear;
+   var day = 1;
+	if(monthOff % 2 == 1) {
+		day = 15;
+	}
+	var dateString = 
+		zeroPad(year + firstYear) + 
+		zeroPad(monthOfYear+1,2) +
+		zeroPad(day,2) + "000000";
+
+	var monthString = prettyMonths[monthOfYear];
+	document.getElementById("displayYearEl").innerHTML = year + 1996;
+	document.getElementById("displayMonthEl").innerHTML = monthString;
+	// looks too jarring when it changes..
+	//document.getElementById("displayDayEl").innerHTML = zeroPad(day,2);
+
+	var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+	document.getElementById('wm-graph-anchor').href = url;
+
+   //document.getElementById("wmtbURL").value="evX("+eventX+") elX("+elementX+") xO("+xOff+") y("+year+") m("+month+") monthOff("+monthOff+") DS("+dateString+") Moy("+monthOfYear+") ms("+monthString+")";
+   if(curYear != year) {
+       var yrOff = year * yearImgWidth;
+       document.getElementById("wbMouseTrackYearImg").style.left = yrOff + "px";
+       curYear = year;
+   }
+   if(curMonth != month) {
+       var mtOff = year + (month * monthImgWidth) + 1;
+       document.getElementById("wbMouseTrackMonthImg").style.left = mtOff + "px";
+       curMonth = month;
+   }
+}
+//]]>
+</script>
+
+<style type="text/css">body{margin-top:0!important;padding-top:0!important;min-width:800px!important;}#wm-ipp a:hover{text-decoration:underline!important;}</style>
+
+<script type="text/javascript">
+ var wmDisclaimBanner = document.getElementById("wm-ipp");
+ if(wmDisclaimBanner != null) {
+   disclaimElement(wmDisclaimBanner);
+ }
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "/web/20120621063939/https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#" id="projects-dropdown" onclick="return false;"><u>My favorites</u> <small>▼</small></a>
+ | <a href="http://web.archive.org/web/20120621063939/https://www.google.com/accounts/ServiceLogin?service=code&ltmpl=phosting&continue=http%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration&followup=http%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration" onclick="_CS_click(&#39;/gb/ph/signin&#39;);"><u>Sign in</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="/web/20120621063939/http://www.firefox.com">Firefox</a>,
+<a href="/web/20120621063939/http://www.google.com/chrome">Google Chrome</a>, or
+<a href="/web/20120621063939/http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0" itemscope="" itemtype="http://schema.org/CreativeWork">
+ <tbody><tr style="height: 58px;">
+ 
+ <td id="plogo">
+ <link itemprop="url" href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink">
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/">
+ 
+ 
+ <img src="./TwsConfiguration_files/logo" alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/"><span itemprop="name">tradelink</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link" href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/"><span itemprop="description">100% open source since 2008... 21,000+ installs across 10+ countries.</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="http://web.archive.org/web/20120621063939/http://code.google.com/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects">
+ </form>
+ 
+ </td></tr>
+ </tbody></table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLinkSuite?tm=6" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/issues/list" class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/source/checkout" class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class="gtbc"></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tbody><tr>
+ 
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/w/list" method="GET" style="display:inline">
+ <select id="can" name="can">
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1">&nbsp;All wiki pages</option>
+ <option value="3">&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="4">&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value="" autocomplete="off"></span>
+ 
+ 
+ 
+ <input type="submit" value="Search">
+ </form>
+ </span>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</tbody></table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol">
+
+ 
+<!-- IE -->
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tbody><tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <span style="font-size:120%;font-weight:bold">TwsConfiguration</span>
+ &nbsp;
+ <div> 
+ 
+ <i>Setting up Interactive Brokers TWS for use with TradeLink</i>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Thu Oct 20 14:40:16 2011">
+ Oct 20, 2011</span>
+ 
+ by <a style="white-space: nowrap" href="http://web.archive.org/web/20120621063939/http://code.google.com/u/104011837341585123072/">j...@pracplay.com</a>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <p></p><ul><ul><ul><li><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Pre-requisites">Pre-requisites</a></li><li><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Setup">Setup</a></li><li><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Testing">Testing</a></li><li><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#IB_Security_Symbols">IB Security Symbols</a></li><li><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Common_Questions">Common Questions</a></li></ul></ul></ul> <p></p><h3><a name="Pre-requisites"></a>Pre-requisites<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Pre-requisites" class="section_anchor"></a></h3><ol><li><a href="http://web.archive.org/web/20120621063939/http://www.interactivebrokers.com/en/control/systemstandalone.php?os=win&ib_entity=llc" rel="nofollow">Install IB TWS</a> and <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLink">TradeLink</a> </li><li>An IB account.  We recommend testing with a paper trading account. </li><li>if you don't have an account, use demo account: user: edemo password: demouser </li></ol><h3><a name="Setup"></a>Setup<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Setup" class="section_anchor"></a></h3><ol><li>In TWS, choose Configure-&gt;API and enable socket connections </li><li>Make TWS run on a port in the 7496-7500 range (default place the <i><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/InteractiveBrokers">InteractiveBrokers</a></i> connector (<tt>TWSServer.exe</tt>) looks) </li><li>You should add the IP address 127.0.0.1 to the <i>Trusted IP Addresses</i> field  (see screenshot) </li></ol><p><img src="./TwsConfiguration_files/IBTWSTLconfig.jpg"> </p><h3><a name="Testing"></a>Testing<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Testing" class="section_anchor"></a></h3><p>Once you have TWS running and pre-requisites configured: </p><ol><li>start <i><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/InteractiveBrokers">InteractiveBrokers</a></i> from the Start menu -&gt; ... -&gt; <i><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLink">TradeLink</a> Connectors</i> </li><li>open Quotopia and start typing a symbol and verify you can get quotes (e.g. just type 'AAPL') </li><li>double click a symbol to send orders and verify this is working. </li><li>start ASP to trade a response, etc. </li></ol><p></p><h3><a name="IB_Security_Symbols"></a>IB Security Symbols<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#IB_Security_Symbols" class="section_anchor"></a></h3><p>IB has very particular (and also sometimes inconsistent) ways of providing a particular contract. </p><p><tt>&lt;symbol/localsymbol/classname&gt; &lt;exchange&gt; &lt;security type&gt;</tt> </p><p>Examples: </p><ul><li>EUR.USD CASH IDEALPRO  (spot FOREX currency) </li><li>6BU1 GLOBEX FUT  (GBP.USD September 2011 currency futures) </li><li>AAPL   ('STK' is implied by default) </li><li>FSFX_OCT_11 FUT DTB </li><li>IBM CALL 201111 165 </li></ul><p></p><p>The easiest way to determine the correct symbol : </p><ol><li>right click the symbol in TWS </li><li>choose <i>Contract Info</i> -&gt; <i>Description</i>,  </li><li>"Symbol/LocalName/LocalClass", "Security Type" and "Exchange".  </li><li>If you need to determine letter codes for futures contract months, look <a href="http://web.archive.org/web/20120621063939/http://en.wikipedia.org/wiki/Futures_contract#Codes" rel="nofollow">here</a>. </li></ol><p></p><p>With Verbose enabled you can also send an order from TWS and you'll see the correct symbol to use in tradelink in the tws connector window/log. </p><h3><a name="Common_Questions"></a>Common Questions<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TwsConfiguration#Common_Questions" class="section_anchor"></a></h3><ul><li>You can enable verbose logging by setting line below VERBOSE to 1 in TwsConfig.txt in folder you installed <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLink">TradeLink</a> </li><li>If you need to change your account currency, see <tt>TwsServer.Config.txt</tt> in folder you installed <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLink">TradeLink</a> </li></ul>
+ </div>
+ </div>
+ </td></tr><tr>
+</tr></tbody></table>
+ </div>
+
+
+ 
+ <div id="wikicommentcol">
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+<div class="collapse">
+
+
+ 
+
+
+<div id="commentlist">
+
+ 
+ <div class="artifactcomment">
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ <a style="white-space: nowrap" href="http://web.archive.org/web/20120621063939/http://code.google.com/u/101043905901918300364/">brian.ci...@gmail.com</a>,
+ 
+ </span>
+ <span class="date" title="Sun Jun 13 09:17:30 2010">Jun 13, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Running version 2282 and TWS. (Tried with version 2258 as well) I get "C:\Program Files\Tradelink\TWSServer.exe </p><blockquote>This application has failed to start because the application configuration is incorrect. Reinstalling the application may fix this problem." 
+</blockquote>I get; "Invalid Broker specified or no brokers running" when opening Quotopia. <p></p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment">
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by  project member 
+ 
+ <a style="white-space: nowrap" href="http://web.archive.org/web/20120621063939/http://code.google.com/u/112538185769994838209/">frantaj...@gmail.com</a>,
+ 
+ </span>
+ <span class="date" title="Sun Jun 13 17:45:50 2010">Jun 13, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>see the 'first time problems' section on the questions page which explains how to correct this error : </p><p><a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/wiki/TradeLinkFaq#First-Time_Problems" rel="nofollow">http://code.google.com/p/tradelink/wiki/TradeLinkFaq#First-Time_Problems</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment">
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by  project member 
+ 
+ <a style="white-space: nowrap" href="http://web.archive.org/web/20120621063939/http://code.google.com/u/104011837341585123072/">j...@pracplay.com</a>,
+ 
+ </span>
+ <span class="date" title="Mon Feb 21 07:46:18 2011">Feb 21, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>please join the users list if you need assistance with getting TWS working, post your question there <a href="http://web.archive.org/web/20120621063939/http://groups.google.com/group/tradelink-users" rel="nofollow">http://groups.google.com/group/tradelink-users</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment">
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ <a style="white-space: nowrap" href="http://web.archive.org/web/20120621063939/http://code.google.com/u//">a...@pettica.com</a>,
+ 
+ </span>
+ <span class="date" title="Thu May 24 22:18:57 2012">May 24, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Maybe worth expanding upon why you might change currency. With default USD I could not load AUS Futures eg APM2 SNFE FUT  </p><pre class="prettyprint"><span class="typ">Starting</span><span class="pln"> tradelink broker server</span><span class="pun">...</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Started</span><span class="pln"> TL </span><span class="typ">BrokerServer</span><span class="pln"> </span><span class="typ">TradeLinkServer</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="lit">0.1</span><span class="pun">.</span><span class="lit">3387</span><span class="pun">]</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Using</span><span class="pln"> bar price data</span><span class="pun">:</span><span class="pln"> MIDPOINT<br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Using</span><span class="pln"> all bar data available</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Using</span><span class="pln"> full quoted symbol on fill notification</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> verbosity </span><span class="kwd">is</span><span class="pln"> on<br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Looking</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> </span><span class="lit">5</span><span class="pln"> TWS instances</span><span class="pun">...</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> </span><span class="pun">-------------------------------</span><span class="pln"><br></span><span class="lit">151203</span><span class="pln"> </span><span class="typ">Found</span><span class="pln"> instance at port</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7496</span><span class="pln"><br></span><span class="lit">151204</span><span class="pln"> </span><span class="typ">Nothing</span><span class="pln"> found at port</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7497</span><span class="pln"><br></span><span class="lit">151205</span><span class="pln"> </span><span class="typ">Nothing</span><span class="pln"> found at port</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7498</span><span class="pln"><br></span><span class="lit">151206</span><span class="pln"> </span><span class="typ">Nothing</span><span class="pln"> found at port</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7499</span><span class="pln"><br></span><span class="lit">151207</span><span class="pln"> </span><span class="typ">Nothing</span><span class="pln"> found at port</span><span class="pun">:</span><span class="pln"> </span><span class="lit">7500</span><span class="pln"><br></span><span class="lit">151207</span><span class="pln"> </span><span class="pun">-------------------------------</span><span class="pln"><br></span><span class="lit">151207</span><span class="pln"> </span><span class="typ">Found</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> of </span><span class="lit">5.</span><span class="pln"><br></span><span class="lit">151207</span><span class="pln"> </span><span class="typ">For</span><span class="pln"> more instances</span><span class="pun">,</span><span class="pln"> change value </span><span class="kwd">in</span><span class="pun">:</span><span class="pln"> </span><span class="typ">TwsServer</span><span class="pun">.</span><span class="typ">Config</span><span class="pun">.</span><span class="pln">txt<br></span><span class="lit">151207</span><span class="pln"> </span><span class="typ">Found</span><span class="pln"> accounts</span><span class="pun">:</span><span class="pln"> DU133031<br></span><span class="lit">151207</span><span class="pln"> </span><span class="typ">Using</span><span class="pln"> currency</span><span class="pun">:</span><span class="pln"> USD<br></span><span class="lit">151216</span><span class="pln"> </span><span class="typ">Client</span><span class="pln"> </span><span class="typ">TradeLinkClient</span><span class="pln"> connected</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151216</span><span class="pln"> </span><span class="typ">Client</span><span class="pln"> </span><span class="typ">TradeLinkClient</span><span class="pln"> disconnected</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151216</span><span class="pln"> </span><span class="typ">Client</span><span class="pln"> </span><span class="typ">Quotopiaquote</span><span class="pln"> connected</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151216</span><span class="pln"> </span><span class="typ">Cleared</span><span class="pln"> stocks </span><span class="kwd">for</span><span class="pln"> </span><span class="typ">Quotopiaquote</span><span class="pln"><br></span><span class="lit">151216</span><span class="pln"> </span><span class="typ">Client</span><span class="pln"> </span><span class="typ">Quotopiaexec</span><span class="pln"> connected</span><span class="pun">.</span><span class="pln"><br></span><span class="lit">151232</span><span class="pln"> </span><span class="typ">Client</span><span class="pln"> </span><span class="typ">Quotopiaquote</span><span class="pln"> registered</span><span class="pun">:</span><span class="pln"> APM2 SNFE FUT<br></span><span class="lit">151232</span><span class="pln"> sym</span><span class="pun">:</span><span class="pln"> &nbsp;</span><span class="kwd">local</span><span class="pun">:</span><span class="pln"> APM2 currency</span><span class="pun">:</span><span class="pln"> USD ex</span><span class="pun">:</span><span class="pln"> SNFE primaryex</span><span class="pun">:</span><span class="pln"> &nbsp;security</span><span class="pun">:</span><span class="pln"> FUT strike</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0.000000</span><span class="pln"> expiry</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pln"><br></span><span class="lit">151232</span><span class="pln"> adding </span><span class="kwd">this</span><span class="pun">:</span><span class="pln"> &nbsp;APM2 FUT SNFE <br></span><span class="lit">151232</span><span class="pln"> </span><span class="typ">Added</span><span class="pln"> IB subscription </span><span class="kwd">for</span><span class="pln"> APM2<br></span><span class="lit">151232</span><span class="pln"> </span><span class="typ">No</span><span class="pln"> security definition has been found </span><span class="kwd">for</span><span class="pln"> the request </span><span class="pun">[</span><span class="pln">err</span><span class="pun">:</span><span class="lit">200</span><span class="pun">]</span><span class="pln"> </span><span class="pun">[</span><span class="pln">ibid</span><span class="pun">:</span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="pun">[</span><span class="pln">tlid</span><span class="pun">:</span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="pun">[</span><span class="pln">lastcontract</span><span class="pun">:</span><span class="pln">sym</span><span class="pun">:</span><span class="pln"> &nbsp;</span><span class="kwd">local</span><span class="pun">:</span><span class="pln"> APM2 currency</span><span class="pun">:</span><span class="pln"> USD ex</span><span class="pun">:</span><span class="pln"> SNFE primaryex</span><span class="pun">:</span><span class="pln"> &nbsp;security</span><span class="pun">:</span><span class="pln"> FUT strike</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0.000000</span><span class="pln"> expiry</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="pun">[</span><span class="pln">lastorder</span><span class="pun">:]</span></pre><p>Without changing the currency, no data would appear in Quotopia Markets tab, but orders placed in TWS would appear in Quotopia. These orders could be canceled from Quotopia, but trying to place an order from Quotopia failed. Went down many rabbit holes before trying a change of currency. </p><p>Changing currency to AUD in TwsServer<a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/w/edit/TwsServer">?</a>?.Config.txt fixed this up. Will go to forums for info on different instruments (ie USD and AUD) coexisting.  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+</div>
+</div>
+
+ 
+
+
+ <script type="text/javascript">
+ function delComment(sequence_num, create_time, delete_mode) {
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.create_time.value = create_time;
+ f.mode.value = delete_mode;
+ f.submit();
+ return false;
+ }
+ </script>
+
+
+ </div>
+ 
+ 
+ 
+ 
+ <br>
+ <div class="artifactcomment">
+ <span class="indicator">►</span> <a href="http://web.archive.org/web/20120621063939/https://www.google.com/accounts/ServiceLogin?service=code&ltmpl=phosting&continue=http%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration&followup=http%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration">Sign in</a> to add a comment
+ </div>
+ 
+ 
+ 
+ 
+ <form name="delcom" action="http://web.archive.org/web/20120621063939/http://code.google.com/p/tradelink/w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="">
+ <input type="hidden" name="create_time" value="">
+ <input type="hidden" name="mode" value="">
+ <input type="hidden" name="pagename" value="TwsConfiguration">
+ <input type="hidden" name="token" value="">
+ </form>
+
+
+
+ <script src="./TwsConfiguration_files/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="./TwsConfiguration_files/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="./TwsConfiguration_files/ph_core.js"></script>
+ 
+ 
+ 
+ 
+ <script type="text/javascript" src="./TwsConfiguration_files/codesite_product_dictionary_ph.pack.04102009.js"></script>
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/projecthosting/terms.html">Terms</a> -
+ <a href="http://web.archive.org/web/20120621063939/http://www.google.com/privacy.html">Privacy</a> -
+ <a href="http://web.archive.org/web/20120621063939/http://code.google.com/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://web.archive.org/web/20120621063939/http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 6:39:39 Jun 21, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 8:35:16 Oct 8, 2013.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<div class="menuDiv instance0" id="menuDiv-projects-dropdown" style="display: none;"><div class="menuCategory controls"><a class="menuItem" href="http://web.archive.org/web/20131008074241/http://www.google.com/accounts/ServiceLogin?service=code&ltmpl=phosting&continue=http%3A%2F%2Fweb.archive.org%2Fweb%2F20120621063939%2Fhttp%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration&amp;followup=http%3A%2F%2Fweb.archive.org%2Fweb%2F20120621063939%2Fhttp%3A%2F%2Fcode.google.com%2Fp%2Ftradelink%2Fwiki%2FTwsConfiguration" style="display: block;">Sign in to see your favorites</a><hr class="menuSeparator"><a class="menuItem" href="http://web.archive.org/more/" style="display: block;">Find developer products...</a><a class="menuItem" href="http://web.archive.org/hosting/" style="display: block;">Find open source projects...</a></div></div></body></html>

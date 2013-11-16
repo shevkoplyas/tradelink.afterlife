@@ -1,0 +1,7 @@
+{
+"host_name": "localhost",
+"user_name": "guest",
+"password": "your-password-here",
+"exchange_name": "tradelink.afterlife",
+"exchange_type" : "topic"
+}

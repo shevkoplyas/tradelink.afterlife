@@ -1,0 +1,13 @@
+{
+	"tick_files" : [
+		"C:\\dima\\tradelink\\tradelink.afterlife\\TikData\\WAG20070926.TIK"
+	],
+	"response_dll" : "C:\\dima\\tradelink\\tradelink.afterlife\\Responses\\bin\\Debug\\Responses.dll",
+	"response_class" : "Responses._SMA_Crossing_Response",
+
+	"chart_barsize_s" : 12,
+	"chart_candle_checkbox" : "checked",
+	"chart_y_axix_scale_to_visible_prices_checkbox" : "checked",
+
+	"play_to" : "end"
+}

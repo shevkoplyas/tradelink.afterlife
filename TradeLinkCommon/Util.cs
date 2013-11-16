@@ -354,9 +354,14 @@ namespace TradeLink.Common
         { 
             get 
             {
-                string path = getregvalue(PROGRAM, KEY_TICKDATAPATH, null);
-                if (path == string.Empty)
-                    path = Util.ProgramData("TradeLinkTicks");
+                //string path = getregvalue(PROGRAM, KEY_TICKDATAPATH, null);
+                //if (path == string.Empty)
+                //    path = Util.ProgramData("TradeLinkTicks");
+
+                // dimon: commented, since was not convenient to pickup different kinds of inputs/oputputs for TL in multiple places on the system
+                // also - on different systems this can be different path, which is another problem. Nasty hack is just put hardcoded value and be happy here! :)
+                string path = "C:\\tradelink.afterlife\\_output_resutls\\collected.TIK.files";
+
                 return path;
             } 
         }
