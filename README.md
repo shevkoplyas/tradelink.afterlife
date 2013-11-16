@@ -1,7 +1,7 @@
 tradelink.afterlife
 ===================
 
-tradelink.afterlife is my personal attempt to keep TradeLink (including ASP, Kadina etc. excluding lovely Glean) alive!
+tradelink.afterlife is my personal attempt to keep TradeLink (including ASP, Kadina etc. excluding "lovely" Glean) alive!
 Please read _documentation/index.html for more info.
 
 Updates on some recent changes:
