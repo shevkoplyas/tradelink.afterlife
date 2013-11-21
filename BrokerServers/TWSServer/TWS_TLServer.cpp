@@ -422,6 +422,9 @@ namespace TradeLibFast
 			return FUT;
 		else if ((ex=="NYSE")||(ex=="NASDAQ")||(ex=="ARCA"))
 			return STK;
+		else if (ex=="IDEALPRO") // dimon: trying to subscribe to forex CAD.JPY (exchange = "IDEALPRO")
+			return CASH;
+
 		// default to STK if not sure
 		return 0;
 
@@ -1034,7 +1037,8 @@ namespace TradeLibFast
 		for (unsigned int i = 0; i<stocks[cid].size(); i++)
 		{
 			// if we already have a subscription to this stock, proceed to next one
-			if (hasTicker(stocks[cid][i])) 
+			// dimon: this "hasTicker()" fails for me when start fresh and trying to subscribe to CAD.JPY , but if manually skipping to next line it now works! todo: find out why and 2) make sure exchange="IDEALPRO" and type=CASH is set for forex tickers either automatically or better provide exchage as parameter when requesting tickers, like: CAD.JPY(ex:IDEALPRO) <-- which implies CASH in code
+			if (hasTicker(stocks[cid][i])) // wtf: hasTicker thinks we already have it, even though we don't!
 				continue;
 			// get symbol
 			TLSecurity sec = TLSecurity::Deserialize(stocks[cid][i]);
@@ -1059,6 +1063,12 @@ namespace TradeLibFast
 			if (!sec.hasDest())
 				contract.exchange = "SMART";
 
+			// dimon: trying to subscribe to "CAD.JPY" - delete this nasty hack "if" later
+			if (sec.sym == "CAD.JPY"){
+				contract.exchange = "IDEALPRO";//"SMART";
+				//contract.secType = CASH;
+				sec.type = TypeFromExchange(contract.exchange);
+			}
 			// if destination specified use it
 			if (sec.hasDest())
 				contract.exchange = sec.dest;

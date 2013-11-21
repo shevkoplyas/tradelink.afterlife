@@ -35,37 +35,6 @@ using System.Diagnostics; // or use debug listener: http://www.dotnetperls.com/d
 namespace Responses
 {
 
-    public class Worker_console_hartbeat_progressbar
-    {
-        // This method will be called when the thread is started. 
-        public void DoWork()
-        {
-            string[] progress_array = { "\\", "|", "/", "-" };
-            while (!_shouldStop)
-            {
-                System.Diagnostics.Debug.Write("\rdbg: " + progress_array[counter % progress_array.Length]);
-                for (int i = 0; i < (counter % progress_array.Length); i++)
-                    System.Diagnostics.Debug.Write(" ");
-                System.Diagnostics.Debug.Write("." + counter + "                             ");
-
-                Thread.Sleep(30 * 1000);
-                counter++;
-            }
-            System.Diagnostics.Debug.WriteLine("worker thread: terminating gracefully.");
-        }
-        public void RequestStop()
-        {
-            _shouldStop = true;
-        }
-        // Volatile is used as hint to the compiler that this data 
-        // member will be accessed by multiple threads. 
-        //private volatile bool _shouldStop;
-        public volatile bool _shouldStop;
-        public int counter;
-    }
-
-
-
     public class _TS_step_by_step : MessageBusableResponseTemplate      // class name starts with "_" just to make it easy to find in a list of responses...
 
     //public class _TS_step_by_step : ResponseTemplate      // class name starts with "_" just to make it easy to find in a list of responses...
@@ -82,18 +51,6 @@ namespace Responses
         public _TS_step_by_step()
             : base()
         {
-
-            //---------------------------------------------------------------- progress bar end --------------
-            // Create the thread object. This does not start the thread.
-            Worker_console_hartbeat_progressbar worker_console_hartbeat_progressbar = new Worker_console_hartbeat_progressbar();
-            Thread workerThread = new Thread(worker_console_hartbeat_progressbar.DoWork);
-
-            // Start the worker thread.
-            workerThread.Start();
-            //---------------------------------------------------------------- progress bar end --------------
-
-
-
             System.Diagnostics.Debug.WriteLine("class _TS_step_by_step constructor entry point");
             string[] args = MyGlobals.args;     // extract main(args) from MyGlobals (we store main(args) in Kadina Program.cs, ASP, etc.)
             if (args == null)

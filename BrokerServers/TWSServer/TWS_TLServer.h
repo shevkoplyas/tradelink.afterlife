@@ -91,7 +91,7 @@ namespace TradeLibFast
 		int getsymbolindex(CString sym);
 		// for storing subscribed symbols and their tickerid
 		bool hasTicker(CString symbol);
-		// following used because tick updates only include size or price that changed (not both)
+		// following used because tick updates only include size or price that changed (not both) // dmitry: todo: verify this statement if it sis true?
 		std::vector<TLTick> stockticks;
 		// default currency
 		CString _currency;

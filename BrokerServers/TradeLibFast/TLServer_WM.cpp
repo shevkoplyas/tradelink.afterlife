@@ -222,9 +222,9 @@ namespace TradeLibFast
 			return ClearStocks(msg);
 		case REGISTERSTOCK :
 			{
-				D4("REGISTERSTOCK");
+				D4("REGISTERSTOCK: msg: " + msg);
 				vector<CString> rec;
-				gsplit(msg,CString("+"),rec);
+				gsplit(msg,CString("+"), rec);
 				CString client = rec[0];
 				vector<CString> hisstocks;
 				// make sure client sent a basket, otherwise clear the basket
@@ -729,11 +729,11 @@ namespace TradeLibFast
 				//CString augpath;
 				//augpath.Format("%s\\%s",path,PROGRAM);
 
-				
+
 				// dimon: probably LOCAL_APPDATA is the way to go, but it can be diff. places on diff. systems,
 				// for simplicity sake this is disabled for now and all the output collected in one fixed hardcoded place.
 				CString augpath = "C:\\tradelink.afterlife\\_logs\\TWSServer";
-				
+
 				// see if folder exists
 				if (!checkFileExists(augpath.GetBuffer()))
 					CreateDirectory(augpath,NULL);

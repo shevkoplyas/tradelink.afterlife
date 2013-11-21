@@ -1,0 +1,29 @@
+This file describes known issues for tradelink.afterlife
+--------------------------------------------------------
+
+- when close ASP window there's still ASP process running in a background
+  tmp workaround: run/stop ASP using visual studio (not by running compiled ASP.exe)
+
+- when close ASP which runs response and response was subscribed to some real-time
+  ticks, then TWSServer still holds the subscription for that ticker and sends
+  GotTick() (to nowhere)
+  Now, if you start ASP + response and try to subscribe to same ticker, then
+  asp.cs::tl_gotTick() never fires (never receives ticks) and your response
+  wont receive ticks (since ASP wont ever call response::GotTick())
+  tmp workaround: restart both IB connector and ASP + response - solves it for now
+
+- for "after hours" real time debug (after 16:00 EST) we need to subscribe to
+  something actively trading 24/7, like forex CAD.JPY.
+  ASP + response will not subscribe to forex ticker CAD.JPY because exchange
+  is set by default is set to SMART instead of "IDEALPRO" for that ticker
+  as well as security type defaults to STK instead of CASH for this case.
+  tmp workaround (works only for CAD.JPY for now):
+	C:\tradelink.afterlife\BrokerServers\TWSServer\TWS_TLServer.cpp
+			if (sec.sym == "CAD.JPY"){
+				contract.exchange = "IDEALPRO";//"SMART";
+				//contract.secType = CASH;
+				sec.type = TypeFromExchange(contract.exchange);
+			}
+  works!  :)
+  note: when subscribing to CAD.JPY it is case sensitive, so "cad.jpy" won't fly
+
