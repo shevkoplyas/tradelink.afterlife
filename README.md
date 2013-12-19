@@ -7,6 +7,7 @@ Please read _documentation/index.html for more info.
 Updates on some recent changes:
 
 <hr>
+<pre>
 18-Dec-2013 Abandoning the project :)
 
 [Q] Hi, Dmitry, I was a ´pasive' follower of tradelink. Did you finally formed another group improving or mantaining the free afterlife tradelink?
@@ -78,6 +79,7 @@ Next steps for me would be to:
 Regards,
 Dmitry Sh.
 
+</pre>
 <hr>
 15-Nov-2013 
 
